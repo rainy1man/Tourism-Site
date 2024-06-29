@@ -14,6 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('test', function () {
+    //
+})->name('test');
+
+require __DIR__ . '/api/AuthRoutes.php';
+require __DIR__ . '/api/CategoryRoutes.php';
+require __DIR__ . '/api/CityProvinceRoutes.php';
+require __DIR__ . '/api/CommentRoutes.php';
+require __DIR__ . '/api/DiscountRoutes.php';
+require __DIR__ . '/api/FavoriteRoutes.php';
+require __DIR__ . '/api/NotficationRoutes.php';
+require __DIR__ . '/api/OrderRoutes.php';
+require __DIR__ . '/api/PassengerRoutes.php';
+require __DIR__ . '/api/ScoreRoutes.php';
+require __DIR__ . '/api/SettingRoutes.php';
+require __DIR__ . '/api/SupportRoutes.php';
+require __DIR__ . '/api/TicketRoutes.php';
+require __DIR__ . '/api/TourRoutes.php';
+require __DIR__ . '/api/TripRoutes.php';
+require __DIR__ . '/api/UserRoutes.php';
+require __DIR__ . '/api/MediaRoutes.php';
+
+Route::middleware('auth:sanctum')->group(function () {
+    //
 });
+
