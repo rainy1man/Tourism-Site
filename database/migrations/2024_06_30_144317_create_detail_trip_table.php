@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('passengers', function (Blueprint $table) {
+        Schema::create('detail_trip', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->bigInteger('national_code');
-            $table->date('birth_date');
-            $table->enum('gender', ['male', 'female']);
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('trip_id');
+            $table->unsignedBigInteger('detail_id');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('passengers');
+        Schema::dropIfExists('detail_trip');
     }
 };

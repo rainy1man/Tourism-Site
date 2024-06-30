@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->integer('xxx');
+            $table->integer('new_price');
+            $table->unsignedBigInteger('trip_id');
             $table->timestamps();
         });
     }

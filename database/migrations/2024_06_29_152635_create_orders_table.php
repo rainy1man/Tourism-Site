@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('trip_id');
+            $table->integer('number');
+            $table->enum('status', ['paid', 'Paying', 'Canceled']);
+            $table->integer('amount');
             $table->timestamps();
         });
     }

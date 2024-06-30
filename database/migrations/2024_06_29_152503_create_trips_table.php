@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('toure_id');
+            $table->integer('price');
+            $table->integer('capacity');
+            $table->time('start_at');
+            $table->time('end_at');
+            $table->enum('meal', ['Breakfast', 'lunch', 'dinner', 'lunch_and_Dinner']);
+            $table->enum('transport', ['terrestrial', 'by_air']);
+            $table->enum('stay_class', ['economy', 'business', 'first_class'])->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('notfications', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('text');
+            $table->timestamps('exp');
             $table->timestamps();
         });
     }
