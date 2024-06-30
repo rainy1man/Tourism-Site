@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('marital', ['married', 'Single']);
             $table->bigInteger('card_number');
             $table->bigInteger('iban');
-            $table->timestamps('softDeletes');
+            $table->softDeletes();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('text');
-            $table->timestamps('exp');
+            //$table->timestamps('exp');
             $table->timestamps();
         });
     }
