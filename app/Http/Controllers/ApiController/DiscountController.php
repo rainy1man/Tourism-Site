@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 
 class DiscountController extends Controller
@@ -12,7 +13,8 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        //
+        $discount = Discount::all();
+        return response()->json($discount);
     }
 
     /**
@@ -20,7 +22,10 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $discount = Discount::create($request->toArray());
+
+
+        return response()->json($discount);
     }
 
     /**
@@ -28,7 +33,11 @@ class DiscountController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $discount = Discount::find($id);
+        if(!$discount) {
+            return response()->json(['message' => 'Discount not found'], 404);
+        }
+        return response()->json($discount);
     }
 
     /**
@@ -36,7 +45,12 @@ class DiscountController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $discount = Discount::find($id);
+        if(!$discount) {
+            return response()->json(['message' => 'Discount not found'], 404);
+        }
+        $discount->update($request->toArray());
+        return response()->json($discount);
     }
 
     /**
@@ -44,6 +58,11 @@ class DiscountController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $discount = Discount::find($id);
+        if(!$discount) {
+            return response()->json(['message' => 'Discount not found'], 404);
+        }
+        $discount->delete();
+        return response()->json(['message' => 'Discount deleted successfully']);
     }
 }

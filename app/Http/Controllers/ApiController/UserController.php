@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index (){
-        $user = User::get();
+        $user = User::all();
         return response()->json($user);
     }
 
@@ -18,14 +18,31 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function edit (Request $request,$id){
-        $user = User::where('id',$id)->update($request->toArray());
+    public function show (string $id){
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        return response()->json($user);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $user->update($request->toArray());
         return response()->json($user);
     }
 
     public function delete (Request $request,$id){
-        $user = User::destroy($id);
-        return response()->json($user);
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully']);
     }
 
     public function login (Request $request){

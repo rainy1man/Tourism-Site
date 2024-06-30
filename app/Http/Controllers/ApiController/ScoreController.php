@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Score;
 use Illuminate\Http\Request;
 
 class ScoreController extends Controller
@@ -12,7 +13,8 @@ class ScoreController extends Controller
      */
     public function index()
     {
-        //
+        $score = Score::all();
+        return response()->json($score);
     }
 
     /**
@@ -20,7 +22,8 @@ class ScoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $score = Score::create($request->toArray());
+        return response()->json($score);
     }
 
     /**
@@ -28,7 +31,11 @@ class ScoreController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $score = Score::find($id);
+        if(!$score) {
+            return response()->json(['message' => 'Score not found'], 404);
+        }
+        return response()->json($score);
     }
 
     /**
@@ -36,7 +43,12 @@ class ScoreController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $score = Score::find($id);
+        if(!$score) {
+            return response()->json(['message' => 'Score not found'], 404);
+        }
+        $score->update($request->toArray());
+        return response()->json($score);
     }
 
     /**
@@ -44,6 +56,11 @@ class ScoreController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $score = Score::find($id);
+        if(!$score) {
+            return response()->json(['message' => 'Score not found'], 404);
+        }
+        $score->delete();
+        return response()->json(['message' => 'Score deleted successfully']);
     }
 }
