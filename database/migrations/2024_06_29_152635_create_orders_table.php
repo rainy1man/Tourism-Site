@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('trip_id')->constrained();
-            $table->integer('number');
+            $table->integer('people_number');
             $table->enum('status', ['paid', 'Paying', 'Canceled']);
             $table->integer('amount');
             $table->timestamps();

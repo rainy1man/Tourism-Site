@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->unsignedBigInteger('category_id')->default(0);
-            $table->timestamps();
         });
     }
 

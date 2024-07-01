@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('toure_id')->constrained();
+            $table->foreignId('tour_id')->constrained();
             $table->integer('price');
             $table->integer('capacity');
             $table->time('start_at');
             $table->time('end_at');
             $table->enum('meal', ['BB', 'HB', 'FB', 'AI']);
             $table->enum('transport', ['train', 'bus', 'airplane']);
-            $table->enum('stay_class', ['economy', 'business', 'first_class'])->nullable();
+            $table->enum('stay_class', ['economy', 'business', 'first_class']);
             $table->timestamps();
         });
     }
