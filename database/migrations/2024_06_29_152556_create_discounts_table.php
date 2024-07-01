@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('xxx');
             $table->integer('new_price');
-            $table->unsignedBigInteger('trip_id');
+            $table->foreignId('trip_id')->constrained();
             $table->timestamps();
         });
     }

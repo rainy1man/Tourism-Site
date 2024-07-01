@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('city_id');
-            $table->unsignedBigInteger('province_id');
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('city_id')->constrained();
+            $table->foreignId('province_id')->constrained();
             $table->timestamps();
         });
     }

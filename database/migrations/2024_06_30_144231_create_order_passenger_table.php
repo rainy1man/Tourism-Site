@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_passenger', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('passenger_id');
+            $table->foreignId('order_id')->constrained();
+            $table->foreignId('passenger_id')->constrained();
             $table->timestamps();
         });
     }

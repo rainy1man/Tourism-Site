@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('total_amount');
-            $table->unsignedBigInteger('order_id');
+            $table->foreignId('order_id')->constrained();
             $table->timestamps();
         });
     }

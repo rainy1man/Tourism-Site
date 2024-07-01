@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('national_code');
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

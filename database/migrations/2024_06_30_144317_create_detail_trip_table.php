@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('detail_trip', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('trip_id');
-            $table->unsignedBigInteger('detail_id');
+            $table->foreignId('trip_id')->constrained();
+            $table->foreignId('detail_id')->constrained();
             $table->timestamps();
         });
     }
