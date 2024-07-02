@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Trip;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -12,7 +13,8 @@ class TripController extends Controller
      */
     public function index()
     {
-        //
+        $trip = Trip::all();
+        return response()->json($trip);
     }
 
     /**
@@ -20,7 +22,8 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $trip = Trip::create($request->toArray());
+        return response()->json($trip);
     }
 
     /**
@@ -28,7 +31,11 @@ class TripController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $trip = Trip::find($id);
+        if(!$trip) {
+            return response()->json(['message' => 'Trip not found'], 404);
+        }
+        return response()->json($trip);
     }
 
     /**
@@ -36,7 +43,13 @@ class TripController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $trip = Trip::find($id);
+        if(!$trip) {
+            return response()->json(['message' => 'Trip not found'], 404);
+        }
+        $trip->update();
+        return response()->json($trip);
+
     }
 
     /**
@@ -44,6 +57,11 @@ class TripController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $trip = Trip::find($id);
+        if(!$trip) {
+        return response()->json(['message' => 'Trip not found'], 404);
+    }
+    $trip->delete();
+    return response()->json(['message' => 'Trip deleted successfully'], 404);
     }
 }
