@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -12,7 +13,8 @@ class CityController extends Controller
      */
     public function index()
     {
-        //
+        $city = City::all();
+        return response()->json($city);
     }
 
     /**
@@ -20,7 +22,8 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $city = City::create($request->toArray());
+        return response()->json($city);
     }
 
     /**
@@ -28,7 +31,11 @@ class CityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $city = City::find($id);
+        if(!$city) {
+            return response()->json(['message' => 'City not found', 404]);
+        }
+        return response()->json($city);
     }
 
     /**
@@ -36,7 +43,12 @@ class CityController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $city = City::find($id);
+        if(!$city) {
+            return response()->json(['message' => 'City not found', 404]);
+        }
+        $city->update($request->toArray());
+        return response()->json($city);
     }
 
     /**
@@ -44,6 +56,11 @@ class CityController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $city = City::find($id);
+        if(!$city) {
+            return response()->json(['message' => 'City not found', 404]);
+        }
+        $city->delete();
+        return response()->json(['message' => 'City deleted successfully']);
     }
 }

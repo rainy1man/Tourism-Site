@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tour;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Return_;
 
 class TourController extends Controller
 {
@@ -12,7 +14,8 @@ class TourController extends Controller
      */
     public function index()
     {
-        //
+        $tour = Tour::all();
+        return response()->json($tour);
     }
 
     /**
@@ -20,7 +23,8 @@ class TourController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tour = Tour::create($request->toArray());
+        return response()->json($tour);
     }
 
     /**
@@ -28,7 +32,11 @@ class TourController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $tour = Tour::find($id);
+        if(!$tour) {
+            return response()->json(['message' => 'Tour not found'], 404);
+        }
+        return response()->json($tour);
     }
 
     /**
@@ -36,14 +44,24 @@ class TourController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $tour = Tour::find($id);
+        if(!$tour) {
+            return response()->json(['message' => 'Tour not found'], 404);
+        }
+        $tour->Update();
+        return response()->json($tour);
 
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $tour = Tour::find($id);
+        if(!$tour) {
+            return response()->json(['message' => 'Tour not found'], 404);
+        }
+        $tour->delete();
+        return response()->json(['message' => 'Tour deleted successfully']);
     }
 }

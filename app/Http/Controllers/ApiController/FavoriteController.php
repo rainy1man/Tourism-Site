@@ -77,6 +77,6 @@ class FavoriteController extends Controller
         $favorite->delete();
 
         // برگرداندن اطلاعات به‌روزرسانی شده
-        return response()->json(['message' => 'Discount deleted successfully']);
+        return response()->json(['message' => 'Favorite deleted successfully']);
     }
 }
