@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('key',['detail', 'service', 'document', 'rule']);
             $table->longText('value');
+            $table->enum('type', ['string', 'json']);
             $table->timestamps();
         });
     }

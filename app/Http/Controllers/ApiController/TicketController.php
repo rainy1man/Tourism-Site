@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -12,7 +13,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $ticket = Ticket::all();
+        return response()->json($ticket);
     }
 
     /**
@@ -20,7 +22,8 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ticket = Ticket::create($request->toArray());
+        return response()->json($ticket);
     }
 
     /**
@@ -28,7 +31,12 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ticket = Ticket::find($id);
+        if(!$ticket) {
+            return response()->json(['message' => 'Ticket not found'], 404);
+        }
+        return response()->json($ticket);
+
     }
 
     /**
@@ -36,7 +44,13 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $ticket = Ticket::find($id);
+        if(!$ticket) {
+            return response()->json(['message' => 'Ticket not found'], 404);
+        }
+        $ticket->update();
+        return response()->json($ticket);
+
     }
 
     /**
@@ -44,6 +58,12 @@ class TicketController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $ticket = Ticket::find($id);
+        if(!$ticket) {
+            return response()->json(['message' => 'Ticket not found'], 404);
+        }
+        $ticket->delete();
+        return response()->json(['message' => 'Ticket deleted successfully']);
+
     }
 }

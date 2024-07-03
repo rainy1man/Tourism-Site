@@ -61,6 +61,6 @@ class CommentController extends Controller
             return response()->json(['message' => 'comment not found'], 404);
         }
         $comment->delete();
-        return response()->json(['message' => 'comment deleted successfully'], 404);
+        return response()->json(['message' => 'comment deleted successfully']);
     }
 }

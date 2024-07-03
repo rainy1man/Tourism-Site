@@ -62,6 +62,6 @@ class TripController extends Controller
         return response()->json(['message' => 'Trip not found'], 404);
     }
     $trip->delete();
-    return response()->json(['message' => 'Trip deleted successfully'], 404);
+    return response()->json(['message' => 'Trip deleted successfully']);
     }
 }

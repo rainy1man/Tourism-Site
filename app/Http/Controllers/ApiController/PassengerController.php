@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Passenger;
 use Illuminate\Http\Request;
 
 class PassengerController extends Controller
@@ -12,7 +13,8 @@ class PassengerController extends Controller
      */
     public function index()
     {
-        //
+        $passenger = Passenger::all();
+        return response()->json($passenger);
     }
 
     /**
@@ -20,7 +22,8 @@ class PassengerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $passenger = Passenger::create($request->toArray());
+        return response()->json($passenger);
     }
 
     /**
@@ -28,7 +31,11 @@ class PassengerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $passenger = Passenger::find($id);
+        if(!$passenger) {
+            return response()->json(['message' => 'Passenger not found'], 404);
+        }
+        return response()->json($passenger);
     }
 
     /**
@@ -36,7 +43,12 @@ class PassengerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $passenger = Passenger::find($id);
+        if(!$passenger) {
+            return response()->json(['message' => 'Passenger not found'], 404);
+        }
+        $passenger->update();
+        return response()->json($passenger);
     }
 
     /**
@@ -44,6 +56,11 @@ class PassengerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $passenger = Passenger::find($id);
+        if(!$passenger) {
+            return response()->json(['message' => 'Passenger not found'], 404);
+        }
+        $passenger->delete();
+        return response()->json(['message' => 'Passenger deleted successfully']);
     }
 }

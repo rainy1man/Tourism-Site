@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -12,7 +13,8 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $setting = Setting::all();
+        return response()->json($setting);
     }
 
     /**
@@ -20,7 +22,8 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $setting = Setting::create($request->toArray());
+        return response()->json($setting);
     }
 
     /**
@@ -28,7 +31,11 @@ class SettingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $setting = Setting::find($id);
+        if(!$setting) {
+            return response()->json(['message' => 'Setting not found'], 404);
+        }
+        return response()->json($setting);
     }
 
     /**
@@ -36,7 +43,12 @@ class SettingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $setting = Setting::find($id);
+        if(!$setting) {
+            return response()->json(['message' => 'Setting not found'], 404);
+        }
+        $setting->update();
+        return response()->json($setting);
     }
 
     /**
@@ -44,6 +56,11 @@ class SettingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $setting = Setting::find($id);
+        if(!$setting) {
+            return response()->json(['message' => 'Setting not found'], 404);
+        }
+        $setting->delete();
+        return response()->json(['message' => 'Setting deleted successfully']);
     }
 }

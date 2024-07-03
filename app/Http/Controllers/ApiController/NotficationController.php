@@ -61,6 +61,6 @@ class NotficationController extends Controller
             return response()->json(['message' => 'Notfication not found'], 404);
         }
         $notfication->delete();
-        return response()->json(['message' => 'Notfication deleted successfully'], 404);
+        return response()->json(['message' => 'Notfication deleted successfully']);
     }
 }

@@ -61,6 +61,6 @@ class OrderController extends Controller
             return response()->json(['message' => 'Order not found'], 404);
         }
         $order->delete();
-        return response()->json(['message' => 'Order deleted successfully'], 404);
+        return response()->json(['message' => 'Order deleted successfully']);
     }
 }
