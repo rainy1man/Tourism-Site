@@ -45,10 +45,6 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:roles',
-        ]);
-
         $role = Role::create(['name' => $request->name]);
         if ($role) {
             return response()->json($role);
@@ -63,15 +59,11 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name,' . $id,
-        ]);
-
-        $role = Role::findOrFail($id);
+        $role = Role::findById($id);
         $role->name = $request->name;
 
         if ($role->save()) {
-            return response()->json($role, 200);
+            return response()->json($role);
         } else {
             return response()->json(['error' => 'Role update failed']);
         }
@@ -82,68 +74,45 @@ class AuthController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
-
-        if ($role->delete()) {
-            return response()->json(['message' => 'Role deleted successfully']);
-        } else {
-            return response()->json(['error' => 'Role deletion failed']);
-        }
+        $role = Role::findById($id);
+        $role->delete();
+        return response()->json(['message' => 'Role deleted successfully']);
     }
-
     public function update_role_permissions(Request $request, $id)
     {
-        $role = Role::findOrFail($id);
-
-        if ($role->syncPermissions($request->permissions)) {
-            return response()->json(['message' => 'Permissions updated successfully']);
-        } else {
-            return response()->json(['error' => 'Permission update failed']);
-        }
+        $role = Role::findById($id);
+        $role->syncPermissions($request->permissions);
+        return response()->json(['message' => 'Permissions updated successfully']);
     }
 
 
     public function show_user_roles($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::findById($id);
 
-        if ($user) {
-            return response()->json($user->syncRoles);
-        } else {
-            return response()->json(['error' => 'User not found']);
-        }
+        return response()->json($user->roles);
     }
     public function update_user_roles(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
-        if ($user->syncRoles($request->roles)) {
-            return response()->json(['message' => 'Roles updated successfully']);
-        } else {
-            return response()->json(['error' => 'Role update failed']);
-        }
+        $user->syncRoles($request->roles);
+        return response()->json(['message' => 'Roles updated successfully']);
     }
 
     public function show_user_permissions($id)
     {
         $user = User::findOrFail($id);
 
-        if ($user) {
-            return response()->json($user->permissions);
-        } else {
-            return response()->json(['error' => 'User not found']);
-        }
+        return response()->json($user->permissions);
     }
 
     public function update_user_permissions(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
-        if ($user->syncPermissions($request->permissions)) {
-            return response()->json(['message' => 'Permissions updated successfully']);
-        } else {
-            return response()->json(['error' => 'Permission update failed']);
-        }
+        $user->syncPermissions($request->permissions);
+        return response()->json(['message' => 'Permissions updated successfully']);
     }
 
     public function permission_index()
