@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ticket;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $ticket = Ticket::all();
+        $ticket = Transaction::all();
         return response()->json($ticket);
     }
 
@@ -22,7 +22,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $ticket = Ticket::create($request->toArray());
+        $ticket = Transaction::create($request->toArray());
         return response()->json($ticket);
     }
 
@@ -31,7 +31,7 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = Transaction::find($id);
         if(!$ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
@@ -44,7 +44,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = Transaction::find($id);
         if(!$ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
@@ -58,7 +58,7 @@ class TicketController extends Controller
      */
     public function destroy(string $id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = Transaction::find($id);
         if(!$ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
