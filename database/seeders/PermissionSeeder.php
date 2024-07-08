@@ -1,0 +1,88 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+
+class PermissionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // User Permissions
+        Permission::create(['name' => 'see.user']);
+        Permission::create(['name' => 'create.user']);
+        Permission::create(['name' => 'update.user']);
+        Permission::create(['name' => 'delete.user']);
+
+        // Tour Permissions
+        Permission::create(['name' => 'see.tour']);
+        Permission::create(['name' => 'create.tour']);
+        Permission::create(['name' => 'update.tour']);
+        Permission::create(['name' => 'delete.tour']);
+
+        // Trip Permissions
+        Permission::create(['name' => 'see.trip']);
+        Permission::create(['name' => 'create.trip']);
+        Permission::create(['name' => 'update.trip']);
+        Permission::create(['name' => 'delete.trip']);
+
+        // Passenger Permissions
+        Permission::create(['name' => 'see.passenger']);
+        Permission::create(['name' => 'create.passenger']);
+        Permission::create(['name' => 'update.passenger']);
+        Permission::create(['name' => 'delete.passenger']);
+
+        // Order Permissions
+        Permission::create(['name' => 'see.order']);
+        Permission::create(['name' => 'create.order']);
+        Permission::create(['name' => 'update.order']);
+        Permission::create(['name' => 'delete.order']);
+
+        // Comment Permissions
+        Permission::create(['name' => 'see.comment']);
+        Permission::create(['name' => 'create.comment']);
+        Permission::create(['name' => 'update.comment']);
+        Permission::create(['name' => 'delete.comment']);
+
+        // Score Permissions
+        Permission::create(['name' => 'see.score']);
+        Permission::create(['name' => 'create.score']);
+        Permission::create(['name' => 'update.score']);
+        Permission::create(['name' => 'delete.score']);
+
+        // Favorite Permissions
+        Permission::create(['name' => 'see.favorite']);
+        Permission::create(['name' => 'create.favorite']);
+        Permission::create(['name' => 'update.favorite']);
+        Permission::create(['name' => 'delete.favorite']);
+
+        // Discount Permissions
+        Permission::create(['name' => 'see.discount']);
+        Permission::create(['name' => 'create.discount']);
+        Permission::create(['name' => 'update.discount']);
+        Permission::create(['name' => 'delete.discount']);
+
+        // Detail Permissions
+        Permission::create(['name' => 'see.detail']);
+        Permission::create(['name' => 'create.detail']);
+        Permission::create(['name' => 'update.detail']);
+        Permission::create(['name' => 'delete.detail']);
+
+        // Favorite Permissions
+        Permission::create(['name' => 'see.favorite']);
+        Permission::create(['name' => 'create.favorite']);
+        Permission::create(['name' => 'update.favorite']);
+        Permission::create(['name' => 'delete.favorite']);
+
+        // Favorite Permissions
+        Permission::create(['name' => 'see.favorite']);
+        Permission::create(['name' => 'create.favorite']);
+        Permission::create(['name' => 'update.favorite']);
+        Permission::create(['name' => 'delete.favorite']);
+    }
+}
