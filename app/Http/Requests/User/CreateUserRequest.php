@@ -22,23 +22,37 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstName' => ['required'],
-            'lastName' => ['required'],
-            'nationalCode' => ['required', 'unique:users,nationalCode,' . $this->user],
-            'phoneNumber' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'unique:users,phoneNumber,' . $this->user],
-            'email' => ['required', 'unique:users,email,' . $this->user]
+            'first_name' => ['nullable','string', 'max:255'],
+            'last_name' => ['nullable','string', 'max:255'],
+            'phone_number' => ['required', 'string', 'max:255', 'unique'],
+            'phone_number_emergency' => ['nullable','digits:11', 'regex:/(09)[0-9]{9}/', 'unique'],
+            'email' => ['nullable','unique'],
+            'password' => ['nullable','between:6,12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
+            'national_code' => ['nullable','unique','string', 'max:255'],
+            'birth_date' => ['nullable','date', 'before:today'],
+            'gender' => ['nullable','in:male,female'],
+            'marital' => ['nullable','in:married,Single'],
+            'card_number' => ['nullable','string', 'max:255'],
+            'iban' => ['nullable','string', 'max:255'],
+
         ];
     }
 
     public function attributes(): array
     {
         return [
+            'first_name' => 'نام',
+            'last_name' => 'نام خانوادگی',
+            'phone_number' => 'شماره همراه',
+            'phone_number_emergency' => 'شماره تلفن همیشه در دسترس و ضروری',
+            'email' => 'پست الکترونیک',
             'password' => 'رمز عبور',
-            'email' => 'ایمیل',
-            'phoneNumber' => 'شماره همراه',
-            'codeMelli' => 'کد ملی',
-            'name' => 'نام و نام خانوادگی'
+            'national_code' => 'کد ملی',
+            'birth_date' => 'تاریخ تولد',
+            'gender' => 'جنسیت',
+            'marital' => 'وضعیت تاهل',
+            'card_number' => 'شماره کارت بانکی',
+            'iban' => 'شماره شبا'
         ];
     }
-
 }

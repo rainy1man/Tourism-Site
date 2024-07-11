@@ -22,23 +22,38 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => "required",
-            'lastName' => "required",
-            'nationalCode' => "required|unique:users,nationalCode",
-            'phoneNumber' => ['required', 'digits:11', 'unique:users,phoneNumber', 'regex:/(09)[0-9]{9}/'],
-            'email' => ['required', 'unique:users,email'],
-            'password' => ['required', 'between:6,12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/']
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone_number' => ['required', 'string', 'max:255', 'unique:users,phone_number,' . $this->user],
+            'phone_number_emergency' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'unique:users,phone_number_emergency,' . $this->user],
+            'email' => ['required', 'unique:users,email,' . $this->user],
+            'password' => ['required', 'between:6,12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
+            'national_code' => ['required','unique:users,national_code' . $this->user,'string', 'max:255'],
+            'birth_date' => ['required','date', 'before:today'],
+            'gender' => ['required','in:male,female'],
+            'marital' => ['required', 'in:married,Single'],
+            'card_number' => ['required', 'string', 'max:255'],
+            'iban' => ['required', 'string', 'max:255'],
+
         ];
     }
 
     public function attributes(): array
     {
         return [
+            'first_name' => 'نام',
+            'last_name' => 'نام خانوادگی',
+            'phone_number' => 'شماره همراه',
+            'phone_number_emergency' => 'شماره تلفن همیشه در دسترس و ضروری',
+            'email' => 'پست الکترونیک',
             'password' => 'رمز عبور',
-            'email' => 'ایمیل',
-            'phoneNumber' => 'شماره همراه',
-            'codeMelli' => 'کد ملی',
-            'name' => 'نام و نام خانوادگی'
+            'national_code' => 'کد ملی',
+            'birth_date' => 'تاریخ تولد',
+            'gender' => 'جنسیت',
+            'marital' => 'وضعیت تاهل',
+            'card_number' => 'شماره کارت بانکی',
+            'iban' => 'شماره شبا'
         ];
     }
+
 }
