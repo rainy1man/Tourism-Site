@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->integer('xxx');
-            $table->integer('new_price');
             $table->foreignId('trip_id')->constrained();
+            $table->enum('discount_type', ['percentage','fixed']);
+            $table->integer('discount_value');
+            $table->timestamps('start_at');
+            $table->timestamps('end_at');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

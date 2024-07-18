@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->foreignId('category_id')->constrained();
+            $table->enum('transport', ['airplane','train','bus']);
             $table->foreignId('city_id')->constrained();
-            $table->foreignId('province_id')->constrained();
             $table->timestamps();
         });
     }

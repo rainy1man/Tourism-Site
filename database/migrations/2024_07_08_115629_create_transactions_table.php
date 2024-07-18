@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('token');
             $table->bigInteger('trans_id');
-            $table->boolean('status');
+            $table->enum('status',['xx','yy']);
             $table->timestamps();
         });
     }

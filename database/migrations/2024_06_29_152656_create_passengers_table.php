@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->bigInteger('national_code');
+            $table->string('national_code');
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
             $table->foreignId('user_id')->constrained();
