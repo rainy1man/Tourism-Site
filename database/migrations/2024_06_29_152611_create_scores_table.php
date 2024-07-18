@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('tour_id')->constrained();
-            $table->integer('score');
+            $table->enum('score',['1','2','3','4','5']);
             $table->timestamps();
         });
     }

@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('text');
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('tour_id')->constrained();
             $table->string('comment_id');
+            $table->boolean('visibility');
             $table->timestamps();
         });
     }

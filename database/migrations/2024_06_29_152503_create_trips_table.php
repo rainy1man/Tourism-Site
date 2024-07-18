@@ -19,7 +19,6 @@ return new class extends Migration
             $table->time('start_at');
             $table->time('end_at');
             $table->enum('meal', ['BB', 'HB', 'FB', 'AI']);
-            $table->enum('transport', ['train', 'bus', 'airplane']);
             $table->enum('stay_class', ['economy', 'business', 'first_class']);
             $table->timestamps();
         });

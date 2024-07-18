@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('phone_number')->unique();
             $table->string('phone_number_emergency')->nullable();
-            $table->bigInteger('national_code')->unique()->nullable();
+            $table->string('national_code')->unique()->nullable();
             $table->date('birth_date')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->enum('marital', ['married', 'Single'])->nullable();
-            $table->bigInteger('card_number')->nullable();
-            $table->bigInteger('iban')->nullable();
+            $table->string('card_number')->nullable();
+            $table->string('iban')->nullable();
             $table->softDeletes();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
