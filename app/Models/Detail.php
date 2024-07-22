@@ -18,7 +18,7 @@ class Detail extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'key', 'value', 'type'
     ];
 
     public function trips(): BelongsToMany

@@ -19,7 +19,7 @@ class Comment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'text', 'user_id', 'toure_id', 'comment_id', 'visibility'
     ];
 
     public function user(): BelongsTo
@@ -32,9 +32,9 @@ class Comment extends Model
         return $this->belongsTo(Tour::class);
     }
 
-    public function categories(): HasMany
+    public function comments(): HasMany
     {
-        return $this->HasMany(Category::class)->with('categories');
+        return $this->HasMany(Comment::class)->with('comments');
     }
 
 }

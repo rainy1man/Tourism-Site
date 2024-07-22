@@ -18,7 +18,7 @@ class Score extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'user_id', 'tour_id', 'score'
     ];
 
     public function user(): BelongsTo

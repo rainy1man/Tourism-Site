@@ -19,7 +19,7 @@ class Passenger extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'first_name', 'last_name', 'national_code', 'birth_date', 'gender', 'user_id'
     ];
 
     public function user(): BelongsTo

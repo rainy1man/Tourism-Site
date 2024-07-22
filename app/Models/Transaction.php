@@ -18,7 +18,7 @@ class Transaction extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'user_id', 'order_id', 'amount', 'Transactions_details', 'status'
     ];
 
     public function user(): BelongsTo

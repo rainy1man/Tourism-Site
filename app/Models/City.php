@@ -19,7 +19,7 @@ class City extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'city_name', 'province_id'
     ];
 
     public function province(): BelongsTo

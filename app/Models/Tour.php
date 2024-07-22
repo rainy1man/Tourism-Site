@@ -20,7 +20,7 @@ class Tour extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'title', 'description', 'transport', 'city_id'
     ];
 
     public function city(): BelongsTo

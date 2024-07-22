@@ -18,7 +18,7 @@ class Discount extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'trip_id', 'discount_type', 'discount_value', 'start_at', 'end_at', 'active'
     ];
 
     public function trip(): BelongsTo

@@ -20,7 +20,7 @@ class Trip extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'tour_id', 'price', 'capacity', 'start_at', 'end_at', 'meal', 'stay_class'
     ];
 
     public function tour(): BelongsTo

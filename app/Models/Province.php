@@ -18,7 +18,7 @@ class Province extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'province_name'
     ];
 
     public function cities(): HasMany

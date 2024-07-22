@@ -17,6 +17,6 @@ class Notfication extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'title', 'text', 'exp'
     ];
 }

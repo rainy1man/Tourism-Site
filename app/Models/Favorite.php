@@ -18,7 +18,7 @@ class Favorite extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-     //
+        'tour_id', 'user_id'
     ];
 
     public function user(): BelongsTo
