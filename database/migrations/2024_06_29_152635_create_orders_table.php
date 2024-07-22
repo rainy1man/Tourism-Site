@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('trip_id')->constrained();
             $table->integer('price');
             $table->integer('people_number');
-            $table->enum('order_status', ['pending', 'completed', 'canceled']);
+            $table->enum('order_status', ['pending', 'completed', 'canceled'])->default('pending');
             $table->enum('payment_status', ['paid', 'unpaid']);
+            $table->enum('refund_status', ['not_requested', 'requested', 'processed'])->default('not_requested');
             $table->integer('total_amount');
             $table->timestamps();
         });

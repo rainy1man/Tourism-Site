@@ -35,6 +35,7 @@ require __DIR__ . '/api/TourRoutes.php';
 require __DIR__ . '/api/TripRoutes.php';
 require __DIR__ . '/api/UserRoutes.php';
 require __DIR__ . '/api/MediaRoutes.php';
+require __DIR__ . '/api/RefundRoutes.php';
 
 Route::middleware('auth:sanctum')->group(function () {
     //
