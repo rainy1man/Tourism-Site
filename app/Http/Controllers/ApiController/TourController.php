@@ -5,60 +5,50 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Tour;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Return_;
 
 class TourController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //
     public function index()
     {
-        $tour = Tour::all();
-        return response()->json($tour);
+        $tours = new Tour();
+        $tours = $tours->all();
+        return $this->responseService->success_response($tours);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //
     public function store(Request $request)
     {
         $tour = Tour::create($request->toArray());
-        return response()->json($tour);
+        return $this->responseService->success_response($tour);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    //
     public function show(string $id)
     {
         $tour = Tour::find($id);
-        if(!$tour) {
-            return response()->json(['message' => 'Tour not found'], 404);
+        if (!$tour) {
+            return $this->responseService->unauthorized_response();
         }
-        return response()->json($tour);
+        return $this->responseService->success_response($tour);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    //
     public function update(Request $request, string $id)
     {
         $tour = Tour::find($id);
-        if(!$tour) {
+        if (!$tour) {
             return response()->json(['message' => 'Tour not found'], 404);
         }
         $tour->Update();
-        return response()->json($tour);
+        return $this->responseService->success_response($tour);
 
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+    //
     public function destroy(string $id)
     {
         $tour = Tour::find($id);
-        if(!$tour) {
+        if (!$tour) {
             return response()->json(['message' => 'Tour not found'], 404);
         }
         $tour->delete();
