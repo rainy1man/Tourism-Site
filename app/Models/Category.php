@@ -12,6 +12,8 @@ class Category extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
+
 
     /**
      * The attributes that are mass assignable.
