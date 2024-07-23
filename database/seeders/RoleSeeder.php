@@ -27,15 +27,27 @@ class RoleSeeder extends Seeder
         // Create super_admin role and assign permissions to this
         $super_admin = Role::create(['name' => 'super_admin']);
         $super_admin->givePermissionTo([
+            'see.user', 'create.user', 'update.user', 'delete.user',
+            'see.trip', 'create.trip', 'update.trip', 'delete.trip',
+            'see.passenger', 'create.passenger', 'update.passenger', 'delete.passenger',
+            'see.order', 'create.order', 'update.order', 'delete.order',
+            'see.comment', 'create.comment', 'update.comment', 'delete.comment',
+            'see.score', 'create.score', 'update.score', 'delete.score',
+            'see.favorite', 'create.favorite', 'update.favorite', 'delete.favorite',
+            'see.discount', 'create.discount', 'update.discount', 'delete.discount',
+            'see.tour', 'create.tour', 'update.tour', 'delete.tour',
+            'see.detail', 'create.detail', 'update.detail', 'delete.detail',
+            'see.refund', 'create.refund', 'update.refund', 'delete.refund',
+            'see.discount', 'create.discount', 'update.discount', 'delete.discount',
         ]);
 
         // Create a super_admin user
         $super_admin = User::create([
             'first_name' => 'super',
             'last_name' => 'admin',
-            'phone_number' => '09127654321',
+            'phone_number' => '09121234567',
             'email' => 'example@gmail.com',
-            'password' => '11aaAA@@'
+            'password' => '11aa!!AA'
         ]);
 
         // Assign super_admin role to the new user
