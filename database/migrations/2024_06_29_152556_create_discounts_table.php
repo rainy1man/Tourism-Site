@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('trip_id')->constrained();
             $table->enum('discount_type', ['percentage','fixed']);
             $table->integer('discount_value');
-            $table->timestamps('start_at');
-            $table->timestamps('end_at');
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('end_at')->nullable();
             $table->boolean('active');
             $table->timestamps();
         });
