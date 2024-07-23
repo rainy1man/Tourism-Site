@@ -1,129 +1,64 @@
 <?php
 
 namespace App\Http\Controllers\ApiController;
+
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-
 
 
 class AuthController extends Controller
 {
+
+    public function register(Request $request)
+    {
+        $phone_number = User::where('phone_number', $request->phone_number)->first();
+        if ($phone_number) {
+            // send code
+        } else {
+            $user = User::create($request->toArray());
+            $user->assignRole('user');
+            return $this->responseService->success_response($user);
+        }
+    }
+
     public function login(Request $request)
     {
-        $log = $request->only('email', 'password');
+        $user = User::where('phone_number', $request->phone_number)
+            ->orWhere('email', $request->email)->first();
 
-        if (Auth::attempt($log)) {
-            $user = Auth::user();
-            $token = $user->createToken('token-name')->plainTextToken;
-            return response()->json(['token' => $token]);
+        if (!$user) {
+            return $this->responseService->notFound_response('کاربر');
         }
-
-        return response()->json(['error' => 'Unauthorized']);
+        if (!Hash::check($request->password, $user->password)) {
+            return $this->responseService->error_response('رمز عبور اشتباه است');
+        }
+        $token = $user->createToken($request->phone_number or $request->email)->plainTextToken;
+        return response()->json(['token' => $token]);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
-        return response()->json(['message' => 'Logged out successfully']);
-    }
-    /**
-     * Display a listing of the resource.
-     */
-    public function role_index()
-    {
-        $roles = Role::all();
-        return response()->json($roles);
+        auth()->user()->currentAccessToken()->delete();
+        return response()->json("از سامانه خارج شدید");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function forgot_password(Request $request)
     {
-        $role = Role::create(['name' => $request->name]);
-        if ($role) {
-            return response()->json($role);
+        $phone_number = User::where('phone_number', $request->phone_number)->first();
+        if ($phone_number) {
+            // send code
         } else {
-            return response()->json(['error' => 'Role creation failed']);
-        }
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $role = Role::findById($id);
-        $role->name = $request->name;
-
-        if ($role->save()) {
-            return response()->json($role);
-        } else {
-            return response()->json(['error' => 'Role update failed']);
+            return $this->responseService->notFound_response('کاربر');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function reset_password(Request $request)
     {
-        $role = Role::findById($id);
-        $role->delete();
-        return response()->json(['message' => 'Role deleted successfully']);
-    }
-    public function update_role_permissions(Request $request, $id)
-    {
-        $role = Role::findById($id);
-        $role->syncPermissions($request->permissions);
-        return response()->json(['message' => 'Permissions updated successfully']);
-    }
-
-
-    public function show_user_roles($id)
-    {
-        $user = User::findById($id);
-
-        return response()->json($user->roles);
-    }
-    public function update_user_roles(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        $user->syncRoles($request->roles);
-        return response()->json(['message' => 'Roles updated successfully']);
-    }
-
-    public function show_user_permissions($id)
-    {
-        $user = User::findOrFail($id);
-
-        return response()->json($user->permissions);
-    }
-
-    public function update_user_permissions(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        $user->syncPermissions($request->permissions);
-        return response()->json(['message' => 'Permissions updated successfully']);
-    }
-
-    public function permission_index()
-    {
-        $permissions = Permission::all();
-
-        if ($permissions) {
-            return response()->json($permissions);
-        } else {
-            return response()->json(['error' => 'Permissions not found']);
-        }
+        $code = $request->code;
+        $password = $request->Password;
+        $password_repeat = $request->password_repeat;
     }
 
 }
