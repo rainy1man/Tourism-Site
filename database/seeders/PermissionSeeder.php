@@ -73,16 +73,10 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update.detail']);
         Permission::create(['name' => 'delete.detail']);
 
-        // Favorite Permissions
-        Permission::create(['name' => 'see.favorite']);
-        Permission::create(['name' => 'create.favorite']);
-        Permission::create(['name' => 'update.favorite']);
-        Permission::create(['name' => 'delete.favorite']);
-
-        // Favorite Permissions
-        Permission::create(['name' => 'see.favorite']);
-        Permission::create(['name' => 'create.favorite']);
-        Permission::create(['name' => 'update.favorite']);
-        Permission::create(['name' => 'delete.favorite']);
+        // Refund Permissions
+        Permission::create(['name' => 'see.refund']);
+        Permission::create(['name' => 'create.refund']);
+        Permission::create(['name' => 'update.refund']);
+        Permission::create(['name' => 'delete.refund']);
     }
 }
