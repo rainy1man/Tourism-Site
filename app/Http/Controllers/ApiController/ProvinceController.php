@@ -4,63 +4,19 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Province;
-use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $province = Province::all();
-        return response()->json($province);
+        $provinces = Province::all();
+        return $this->responseService->success_response($provinces);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store()
     {
-        $province = Province::create($request->toArray());
-        return response()->json($province);
+        $provinces = Province::create();
+        return $this->responseService->success_response($provinces);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $province = Province::find($id);
-        if(!$province) {
-            return response()->json(['message' => 'Province not found'], 404);
-        }
-        return response()->json($province);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $province = Province::find($id);
-        if(!$province) {
-            return response()->json(['message' => 'Province not found'], 404);
-        }
-        $province->update();
-        return response()->json($province);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $province = Province::find($id);
-        if(!$province) {
-            return response()->json(['message' => 'Province not found'], 404);
-        }
-        $province->delete();
-        return response()->json(['message' => 'Province deleted successfully']);
-    }
 }
