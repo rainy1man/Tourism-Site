@@ -1,66 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\ApiController;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Score;
 use Illuminate\Http\Request;
+use App\Models\Score;
+use App\Models\Order;
+use App\Models\Tour;
+use Illuminate\Support\Facades\Auth;
 
 class ScoreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $score = Score::all();
-        return response()->json($score);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $score = Score::create($request->toArray());
-        return response()->json($score);
-    }
+        $user = Auth::user();
+        $tourId = $request->input('tour_id');
+        $scoreValue = $request->input('score');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $score = Score::find($id);
-        if(!$score) {
-            return response()->json(['message' => 'Score not found'], 404);
-        }
-        return response()->json($score);
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $score = Score::find($id);
-        if(!$score) {
-            return response()->json(['message' => 'Score not found'], 404);
-        }
-        $score->update($request->toArray());
-        return response()->json($score);
-    }
+        $Purchased = Order::where('user_id', $user->id)
+            ->whereHas('trip', function ($query) use ($tourId) {
+                $query->where('tour_id', $tourId);
+            })
+            ->where('order_status', 'completed')
+            ->exists();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $score = Score::find($id);
-        if(!$score) {
-            return response()->json(['message' => 'Score not found'], 404);
+        if (!$Purchased) {
+            return response()->json(['خطا' => 'شما مجاز به انجام این عملیات نیستید'], 403);
         }
-        $score->delete();
-        return response()->json(['message' => 'Score deleted successfully']);
+
+
+        $score = Score::updateOrCreate(
+            ['user_id' => $user->id, 'tour_id' => $tourId],
+            ['score' => $scoreValue]
+        );
+
+        return response()->json(['پیام' => 'امتیاز شما ثبت گردید', 'score' => $score]);
     }
 }
