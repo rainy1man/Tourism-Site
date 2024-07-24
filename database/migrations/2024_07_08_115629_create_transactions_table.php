@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('order_id')->constrained();
             $table->integer('amount');
-            $table->string('token');
-            $table->bigInteger('trans_id');
+            $table->json('Transactions_details');
             $table->enum('status',['xx','yy']);
             $table->timestamps();
         });
