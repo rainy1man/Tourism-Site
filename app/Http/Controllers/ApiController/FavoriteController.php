@@ -4,79 +4,32 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favorite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+       public function SwitchingFavorite(Request $request, $tour_id)
     {
-        $favorite = Favorite::get();
-        return response()->json($favorite);
-    }
+        $user = Auth::user();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $favorite = Favorite::create($request->toArray());
-        return response()->json($favorite);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $favorite = Favorite::find($id);
-        if (!$favorite) {
-            return response()->json(['message' => 'Favorite not found'], 404);
+        if (!$user) {
+            return response()->json(['message' => 'ابتدا به حساب کاربری خود وارد شوید'], 401);
         }
-        return response()->json($favorite);
-    }
+     $favorite = Favorite::where('user_id', $user->id)
+            ->where('tour_id', $tour_id)
+            ->first();
 
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-
-        $favorite = Favorite::find($id);
-
-        // اگر favorite پیدا نشد، خطای 404 برگردانید
-        if (!$favorite) {
-            return response()->json(['message' => 'Favorite not found'], 404);
+        if ($favorite) {
+            $favorite->delete();
+            return response()->json(['message' => 'از علاقه مندی حذف شد'], 200);
+        } else {
+            $newFavorite = new Favorite();
+            $newFavorite->user_id = $user->id;
+            $newFavorite->tour_id = $tour_id;
+            $newFavorite->save();
+            return response()->json(['message' => 'به لیست علاقه مندی اضافه شد'], 201);
         }
-
-        // به‌روزرسانی favorite با داده‌های ورودی
-        $favorite->update($request->toArray());
-
-        // برگرداندن اطلاعات به‌روزرسانی شده
-        return response()->json($favorite);
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $favorite = Favorite::find($id);
-
-        // اگر favorite پیدا نشد، خطای 404 برگردانید
-        if (!$favorite) {
-            return response()->json(['message' => 'Favorite not found'], 404);
-        }
-
-        // برای حذف favorite با داده‌های ورودی
-        $favorite->delete();
-
-        // برگرداندن اطلاعات به‌روزرسانی شده
-        return response()->json(['message' => 'Favorite deleted successfully']);
     }
 }
