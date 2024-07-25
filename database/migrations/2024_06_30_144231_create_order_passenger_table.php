@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained();
             $table->foreignId('passenger_id')->constrained();
-            $table->timestamps();
         });
     }
 
