@@ -1,12 +1,11 @@
 <?php
 
 
-use App\Http\Controllers\ApiController\UserController;
+use App\Http\Controllers\ApiController\SettingController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
-    Route::get('index/{id?}', [UserController::class, 'index'])->name('index');
-    Route::post('store', [UserController::class, 'store'])->name('store');
-    Route::put('update/{id}', [UserController::class, 'update'])->name('update');
-    Route::delete('destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
-});
+
+
+Route::get('/settings/{id}/edit', [SettingController::class, 'edit'])->name('settings.edit');
+Route::post('/settings/{id}', [SettingController::class, 'update'])->name('settings.update');
+Route::post('/settings/reset-defaults', [SettingController::class, 'resetDefaults'])->name('settings.resetDefaults');
