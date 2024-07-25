@@ -28,9 +28,5 @@ class Category extends Model
     {
         return $this->belongsToMany(Tour::class, 'category_tour');
     }
-
-    public function categories(): HasMany
-    {
-        return $this->HasMany(Category::class)->with('categories');
-    }
+    
 }

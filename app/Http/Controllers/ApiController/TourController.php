@@ -12,7 +12,8 @@ class TourController extends Controller
     public function index()
     {
         $tours = new Tour();
-        $tours = $tours->all();
+        $tours = $tours->with(['categories', 'city', 'media']);
+        $tours = $tours->orderBy('id', 'desc')->paginate(5);
         return $this->responseService->success_response($tours);
     }
 
@@ -20,6 +21,17 @@ class TourController extends Controller
     public function store(Request $request)
     {
         $tour = Tour::create($request->toArray());
+        if ($request->hasFile('main_image')) {
+            $tour->addMedia($request->main_image)->toMediaCollection('main_image');
+        }
+        $additional_images = $request->additional_images;
+        if ($additional_images) {
+            foreach ($additional_images as $image) {
+                $tour->addMedia($image)->toMediaCollection('additional_images');
+            }
+        }
+
+        $tour->categories()->attach($request->categories);
         return $this->responseService->success_response($tour);
     }
 

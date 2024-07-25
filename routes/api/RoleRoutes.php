@@ -3,7 +3,7 @@
 use App\Http\Controllers\ApiController\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
+Route::group(['prefix' => 'role', 'as' => 'role.'], function () {
     Route::get('/', [AuthController::class, 'role_index'])->name('index');
     Route::post('/', [AuthController::class, 'store'])->name('store');
     Route::put('/{id}', [AuthController::class, 'update'])->name('update');
@@ -11,7 +11,7 @@ Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
     Route::post('update_permissions/{id}', [AuthController::class, 'update_role_permissions'])->name('update_permissions');
 });
 
-Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::get('show_roles/{id}', [AuthController::class, 'show_user_roles'])->name('show_roles');
     Route::post('update_roles/{id}', [AuthController::class, 'update_user_roles'])->name('update_roles');
     Route::get('show_permissions/{id}', [AuthController::class, 'show_user_permissions'])->name('show_permissions');
