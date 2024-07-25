@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('key');
             $table->longText('value');
-            $table->enum('type', ['string', 'json']);
             $table->timestamps();
         });
     }

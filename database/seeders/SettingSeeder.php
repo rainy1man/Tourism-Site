@@ -14,22 +14,22 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $settings = [
-            ['key' => 'contact_address', 'value' => 'آدرس', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'contact_phone', 'value' => 'شماره تماس', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'contact_email', 'value' => 'ایمیل', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'customer_faq', 'value' => 'سوالات متداول', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'customer_support', 'value' => 'مرکز پشتیبانی', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'customer_about', 'value' => 'درباره ما', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'popular_north_tours', 'value' => 'تورهای شمال', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'popular_international_tours', 'value' => 'تورهای خارجی', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'popular_desert_tours', 'value' => 'تورهای کویر', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'logo', 'value' => '', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'social_instagram', 'value' => 'Instagram', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'social_twitter', 'value' => 'Twitter', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'social_youtube', 'value' => 'YouTube', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'social_linkedin', 'value' => 'LinkedIn', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'contact_address', 'value' => 'Your default address'],
+            ['key' => 'contact_phone', 'value' => 'Your default phone number'],
+            ['key' => 'contact_email', 'value' => 'contact@example.com'],
+            ['key' => 'customer_faq', 'value' => 'Default FAQ content'],
+            ['key' => 'customer_support', 'value' => 'Your customer support information'],
+            ['key' => 'about_us', 'value' => 'About us default content'],
+            ['key' => 'popular_destinations', 'value' => json_encode(['تورهای شمال', 'تورهای خارجی', 'تورهای کویر'])],
+            ['key' => 'social_instagram', 'value' => 'https://instagram.com/yourprofile'],
+            ['key' => 'social_twitter', 'value' => 'https://twitter.com/yourprofile'],
+            ['key' => 'social_youtube', 'value' => 'https://youtube.com/yourprofile'],
+            ['key' => 'social_linkedin', 'value' => 'https://linkedin.com/in/yourprofile'],
         ];
 
-        Setting::insert($settings);
+        foreach ($settings as $setting) {
+            Setting::updateOrCreate(['key' => $setting['key']], ['value' => $setting['value']]);
+        }
+    
     }
 }
