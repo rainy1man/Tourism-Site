@@ -13,29 +13,8 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $setting = Setting::all();
-        return response()->json($setting);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $setting = Setting::create($request->toArray());
-        return response()->json($setting);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $setting = Setting::find($id);
-        if(!$setting) {
-            return response()->json(['message' => 'Setting not found'], 404);
-        }
-        return response()->json($setting);
+        $settings = Setting::all();
+        return view('settings.index', compact('settings'));
     }
 
     /**
@@ -43,24 +22,48 @@ class SettingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $setting = Setting::find($id);
-        if(!$setting) {
-            return response()->json(['message' => 'Setting not found'], 404);
+        $setting = Setting::findOrFail($id);
+
+        if ($request->hasFile('logo')) {
+
+            $setting->clearMediaCollection('logos');
+            $setting->addMedia($request->file('logo'))->toMediaCollection('logos');
         }
-        $setting->update();
-        return response()->json($setting);
+
+        $setting->value = $request->input('value');
+        $setting->save();
+
+        return redirect()->route('settings.index')->with('success', 'Setting updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function resetDefaults()
     {
-        $setting = Setting::find($id);
-        if(!$setting) {
-            return response()->json(['message' => 'Setting not found'], 404);
+        $default_settings = [
+            'contact_address' => 'آدرس',
+            'contact_phone' => 'شماره تماس',
+            'contact_email' => 'ایمیل',
+            'customer_faq' => 'سوالات متداول',
+            'customer_support' => 'مرکزپشتیبانی',
+            'customer_about' => 'درباره ما',
+            'popular_north_tours' => 'تورهای شمال',
+            'popular_international_tours' => 'تورهای خارجی',
+            'popular_desert_tours' => 'تورهای کویر',
+            'logo' => '',
+            'social_instagram' => 'Instagram',
+            'social_twitter' => 'Twitter',
+            'social_youtube' => 'YouTube',
+            'social_linkedin' => 'LinkedIn',
+        ];
+
+        foreach ($default_settings as $key => $value) {
+            $setting = Setting::where('key', $key)->first();
+            if ($setting) {
+                $setting->value = $value;
+                $setting->save();
+            }
         }
-        $setting->delete();
-        return response()->json(['message' => 'Setting deleted successfully']);
+
+        return redirect()->route('settings.index')->with('success', 'Settings reset to defaults');
     }
+
 }
