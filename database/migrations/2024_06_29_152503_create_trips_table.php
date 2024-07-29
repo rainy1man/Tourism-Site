@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tour_id')->constrained();
             $table->integer('price');
+            $table->integer('discount_price')->nullable();
             $table->integer('capacity');
             $table->time('start_at');
             $table->time('end_at');

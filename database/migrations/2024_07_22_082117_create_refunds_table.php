@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('order_id')->constrained();
-            $table->integer('amount');
+            $table->string('text');
+            $table->integer('refund_amount');
             $table->enum('status',['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });

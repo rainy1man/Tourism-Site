@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('key');
             $table->longText('value');
+            $table->enum('type',['fixed','banner','FAQ']);
             $table->timestamps();
         });
     }
