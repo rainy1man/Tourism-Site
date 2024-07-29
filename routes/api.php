@@ -22,7 +22,6 @@ require __DIR__ . '/api/AuthRoutes.php';
 require __DIR__ . '/api/CategoryRoutes.php';
 require __DIR__ . '/api/CityProvinceRoutes.php';
 require __DIR__ . '/api/CommentRoutes.php';
-require __DIR__ . '/api/DiscountRoutes.php';
 require __DIR__ . '/api/FavoriteRoutes.php';
 require __DIR__ . '/api/NotficationRoutes.php';
 require __DIR__ . '/api/OrderRoutes.php';
