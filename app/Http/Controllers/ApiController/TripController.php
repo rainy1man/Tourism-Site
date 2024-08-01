@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TripDetailResource;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,8 @@ class TripController extends Controller
      */
     public function index()
     {
-        $trip = Trip::all();
-        return response()->json($trip);
+        $trips = Trip::all();
+        return TripDetailResource::collection($trips);
     }
 
     /**
@@ -23,7 +24,7 @@ class TripController extends Controller
     public function store(Request $request)
     {
         $trip = Trip::create($request->toArray());
-        return response()->json($trip);
+        return new TripDetailResource($trip);
     }
 
     /**
