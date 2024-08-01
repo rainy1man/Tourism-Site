@@ -20,7 +20,7 @@ class Trip extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'tour_id', 'price', 'capacity', 'start_at', 'end_at', 'meal', 'stay_class'
+        'tour_id', 'price', 'discount_price', 'capacity', 'start_at', 'end_at','meal'
     ];
 
     public function tour(): BelongsTo
@@ -31,16 +31,6 @@ class Trip extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function details(): BelongsToMany
-    {
-        return $this->belongsToMany(Detail::class, 'detail_trip');
-    }
-
-    public function discounts(): HasMany
-    {
-        return $this->hasMany(Discount::class);
     }
 
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -23,7 +24,7 @@ class Tour extends Model implements HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
-        'title', 'description', 'transport', 'city_id'
+        'title', 'description', 'transport', 'city_id', 'stay_class', 'details'
     ];
 
     public function city(): BelongsTo
@@ -41,11 +42,6 @@ class Tour extends Model implements HasMedia
         return $this->belongsToMany(Category::class, 'category_tour');
     }
 
-    public function scores(): HasMany
-    {
-        return $this->hasMany(Score::class);
-    }
-
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
@@ -55,5 +51,9 @@ class Tour extends Model implements HasMedia
     {
         return $this->hasMany(Comment::class);
     }
+
+    protected $casts = [
+        'details' => 'object'
+    ];
 
 }

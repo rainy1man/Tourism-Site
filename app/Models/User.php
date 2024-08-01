@@ -55,11 +55,6 @@ class User extends Authenticatable
         return $this->hasMany(Passenger::class);
     }
 
-    public function scores(): HasMany
-    {
-        return $this->hasMany(Score::class);
-    }
-
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
@@ -73,6 +68,10 @@ class User extends Authenticatable
     public function refunds()
     {
         return $this->hasMany(Refund::class);
+    }
+
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
     }
 
 }

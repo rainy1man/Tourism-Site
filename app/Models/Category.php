@@ -21,12 +21,12 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title', 'description', 'category_id'
+        'title', 'description'
     ];
 
     public function tours(): BelongsToMany
     {
         return $this->belongsToMany(Tour::class, 'category_tour');
     }
-    
+
 }
