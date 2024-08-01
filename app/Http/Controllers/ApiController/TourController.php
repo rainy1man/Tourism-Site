@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TourResource;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,8 @@ class TourController extends Controller
     //
     public function index()
     {
-        $tours = new Tour();
-        $tours = $tours->with(['categories', 'city', 'media']);
-        $tours = $tours->orderBy('id', 'desc')->paginate(5);
-        return $this->responseService->success_response($tours);
+        $tours = Tour::orderBy('id', 'desc')->paginate(6);
+        return TourResource::collection($tours);
     }
 
     //
@@ -30,9 +29,9 @@ class TourController extends Controller
                 $tour->addMedia($image)->toMediaCollection('additional_images');
             }
         }
+        $tour->categories()->attach($request->category_ids);
 
-        $tour->categories()->attach($request->categories);
-        return $this->responseService->success_response($tour);
+        return TourResource::make($tour);
     }
 
     //
