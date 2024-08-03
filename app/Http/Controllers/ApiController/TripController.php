@@ -12,9 +12,35 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $trips = Trip::all();
+        $trips = new Trip();
+        if($request->has('capacity')){
+            $trips = $trips->where('capacity', '>=', $request->capacity);
+        }
+        if($request->has('start_date')){
+            $trips = $trips->where('start_date', '>=', $request->start_date);
+        }
+        if($request->has('end_date')){
+            $trips = $trips->where('end_date', '<=', $request->end_date);
+        }
+        if($request->has('price_min')){
+            $trips = $trips->where('price_min', '>=', $request->price_min);
+        }
+        if($request->has('price_max')){
+            $trips = $trips->where('price_max', '<=', $request->price_max);
+        }
+        if($request->has('city_id')){
+            $trips = $trips->whereHas('tour', function($q) use ($request) {
+                $q->where('city_id', $request->city_id);
+            });
+        }
+        if($request->has('categories')){
+            $trips = $trips->whereHas('tour.categories', function($q) use ($request) {
+                $q->whereIn('category_id', $request->categories);
+            });
+        }
+        $trips = $trips->orderBy('id', 'desc')->paginate(10);
         return TripDetailResource::collection($trips);
     }
 
