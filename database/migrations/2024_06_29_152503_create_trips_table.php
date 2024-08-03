@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('discount_price')->nullable();
             $table->integer('capacity');
-            $table->time('start_at');
-            $table->time('end_at');
+            $table->date('start_at');
+            $table->date('end_at');
             $table->enum('meal', ['BB', 'HB', 'FB', 'AI']);
             $table->timestamps();
         });
