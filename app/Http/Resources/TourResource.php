@@ -24,7 +24,8 @@ class TourResource extends JsonResource
             "details" => $this->details,
             "categories" => CategorySummaryResource::collection($this->categories),
             "city" => new CityResource($this->city),
-            "main_image" => MediaResource::collection($this->getMedia('main_image'))
+            "main_image" => MediaResource::collection($this->getMedia('main_image')),
+            "additional_images" => MediaResource::collection($this->getMedia('additional_images'))
         ];
     }
 }

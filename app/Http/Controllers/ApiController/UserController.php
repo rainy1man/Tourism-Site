@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserDetailResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -15,7 +17,7 @@ class UserController extends Controller
         if ($request->user()->can('see.user')) {
             $users = new User();
             $users = $users->orderBy('id', 'desc')->paginate(10);
-            return $this->responseService->success_response($users);
+            return UserDetailResource::collection($users);
         } else {
             return $this->responseService->unauthorized_response();
         }
@@ -29,7 +31,7 @@ class UserController extends Controller
             $password = Hash::make($national_code);
             $user = User::create($request->merge(["password" => $password])->toArray());
             $user->assignRole('user');
-            return $this->responseService->success_response($user);
+            return UserDetailResource::make($user);
         } else {
             return $this->responseService->unauthorized_response();
         }
@@ -38,9 +40,9 @@ class UserController extends Controller
     //
     public function show(Request $request, string $id)
     {
-        if ($request->user()->can('see.user') || $request->user()->id == $id) {
+        if ($request->user()->can('see.user')) {
             $user = User::find($id);
-            return $this->responseService->success_response($user);
+            return UserDetailResource::make($user);
         } else {
             return $this->responseService->unauthorized_response();
         }
@@ -49,9 +51,9 @@ class UserController extends Controller
     //
     public function update(Request $request, string $id)
     {
-        if ($request->user()->can('update.user') || $request->user()->id == $id) {
+        if ($request->user()->can('update.user')) {
             $user = User::where('id', $id)->update($request->merge(["password" => Hash::make($request->password)])->toArray());
-            return $this->responseService->success_response($user);
+            return UserDetailResource::make($user);
         } else {
             return $this->responseService->unauthorized_response();
         }
@@ -67,4 +69,19 @@ class UserController extends Controller
             return $this->responseService->unauthorized_response();
         }
     }
+
+    public function profile(Request $request)
+    {
+        $user = User::find(Auth::id());
+        return UserDetailResource::make($user);
+    }
+
+    public function update_profile(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $input = $request->except(['password']);
+        $user->update($input);
+        return UserDetailResource::make($user);
+    }
+
 }
