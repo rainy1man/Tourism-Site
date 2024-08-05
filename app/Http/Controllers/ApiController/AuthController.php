@@ -44,21 +44,4 @@ class AuthController extends Controller
         return response()->json("از سامانه خارج شدید");
     }
 
-    public function forgot_password(Request $request)
-    {
-        $phone_number = User::where('phone_number', $request->phone_number)->first();
-        if ($phone_number) {
-            // send code
-        } else {
-            return $this->responseService->notFound_response('کاربر');
-        }
-    }
-
-    public function reset_password(Request $request)
-    {
-        $code = $request->code;
-        $password = $request->Password;
-        $password_repeat = $request->password_repeat;
-    }
-
 }
