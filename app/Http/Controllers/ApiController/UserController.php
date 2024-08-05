@@ -78,7 +78,7 @@ class UserController extends Controller
 
     public function update_profile(Request $request)
     {
-        $user = User::find(Auth::id());
+        $user = User::find(Auth::user());
         $input = $request->except(['password']);
         $user->update($input);
         return UserDetailResource::make($user);
