@@ -29,13 +29,14 @@ class PassengerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        $passenger = Passenger::find($id);
-        if(!$passenger) {
-            return response()->json(['message' => 'Passenger not found'], 404);
+        if ($request->user()->can('see.passenger')) {
+            $passengers = Passenger::where('user_id', $id)->all();
+            return $this->responseService->success_response($passengers);
+        } else {
+            return $this->responseService->unauthorized_response();
         }
-        return response()->json($passenger);
     }
 
     /**
