@@ -30,7 +30,7 @@ class UserDetailResource extends JsonResource
             "passengers" => PassengerResource::collection($this->passengers),
             "favorites" => CategorySummaryResource::collection($this->favorites),
             "orders" => CategorySummaryResource::collection($this->orders),
-            "avatar" => new MediaResource($this->getMedia('avatar'))
+            "avatar" =>  MediaResource::collection($this->getMedia('avatar'))
         ];
     }
 }
