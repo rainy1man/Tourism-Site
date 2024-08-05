@@ -10,26 +10,46 @@ use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
-       public function SwitchingFavorite(Request $request, $tour_id)
+
+    public function index()
+    {
+        $favorite = Favorite::with(['user', 'tour'])->get();
+
+        return $this->responseService->success_response($favorite);
+    }
+
+    public function show($id)
+    {
+
+        $favorite = Favorite::with(['user', 'tour'])->find($id);
+        if (!$favorite) {
+        return $this->responseService->notFound_response();
+    }
+
+        return $this->responseService->success_response($favorite);
+
+    }
+
+    public function updateOrCreate(Request $request)
     {
         $user = Auth::user();
 
         if (!$user) {
-            return response()->json(['message' => 'ابتدا به حساب کاربری خود وارد شوید'], 401);
+            return $this->responseService->unauthorized_response();
         }
-     $favorite = Favorite::where('user_id', $user->id)
-            ->where('tour_id', $tour_id)
+        $favorite = Favorite::where('user_id', $user->id)
+            ->where('tour_id', $request->tour_id)
             ->first();
 
         if ($favorite) {
             $favorite->delete();
-            return response()->json(['message' => 'از علاقه مندی حذف شد'], 200);
+            return $this->responseService->success_response();
         } else {
-            $newFavorite = new Favorite();
-            $newFavorite->user_id = $user->id;
-            $newFavorite->tour_id = $tour_id;
-            $newFavorite->save();
-            return response()->json(['message' => 'به لیست علاقه مندی اضافه شد'], 201);
+            $new_favorite = new Favorite();
+            $new_favorite->user_id = $user->id;
+            $new_favorite->tour_id = $request->tour_id;;
+            $new_favorite->save();
+            return $this->responseService->success_response();
         }
     }
 }
