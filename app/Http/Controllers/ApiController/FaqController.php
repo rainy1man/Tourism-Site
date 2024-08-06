@@ -41,7 +41,7 @@ class FaqController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Faq $id)
+    public function update(Request $request,  $id)
     {
         $faq = Faq::find($id);
         if(!$faq) {
@@ -55,7 +55,7 @@ class FaqController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Faq $id)
+    public function destroy(Request $request, $id)
     {
         $faq = Faq::find($id);
         if(!$faq) {
