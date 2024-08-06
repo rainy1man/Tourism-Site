@@ -19,7 +19,7 @@ class PassengerFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'national_code' => '00' . fake()->nationalCode(),
+            'national_code' => fake()->nationalCode(),
             'birth_date' => fake()->date(),
             'gender' => fake()->randomElement(['male', 'female']),
         ];
