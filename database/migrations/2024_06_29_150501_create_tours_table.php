@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->enum('transport', ['airplane','train','bus']);
-            $table->enum('stay_class', ['hotel_first_class', 'hotel_economy', 'hotel_apartment', 'suit', 'cabin', 'tent']);
+            $table->enum('stay_class', ['hotel first class', 'hotel economy', 'hotel apartment', 'suit', 'cabin', 'tent']);
             $table->foreignId('city_id')->constrained();
             $table->json('details');
             $table->timestamps();
