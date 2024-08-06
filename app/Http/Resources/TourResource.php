@@ -23,7 +23,7 @@ class TourResource extends JsonResource
             "stay_class" => $this->stay_class,
             "details" => $this->details,
             "categories" => CategorySummaryResource::collection($this->categories),
-            "city" => new CityResource($this->city),
+            "city" => CityResource::make($this->city),
             "main_image" => MediaResource::collection($this->getMedia('main_image')),
             "additional_images" => MediaResource::collection($this->getMedia('additional_images'))
         ];
