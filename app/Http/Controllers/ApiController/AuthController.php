@@ -35,7 +35,12 @@ class AuthController extends Controller
             return $this->responseService->error_response('رمز عبور اشتباه است');
         }
         $token = $user->createToken($request->phone_number or $request->email)->plainTextToken;
-        return response()->json(['token' => $token]);
+
+        return response()->json([
+            'token' => $token,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name
+        ]);
     }
 
     public function logout(Request $request)
