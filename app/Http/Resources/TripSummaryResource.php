@@ -14,15 +14,6 @@ class TripSummaryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            "id" => $this->id,
-            "tour_detail" => TourResource::make($this->tour),
-            "price" => $this->price,
-            "discount_price" => $this->discount_price,
-            "capacity" => $this->capacity,
-            "start_at" => $this->start_at,
-            "end_at" => $this->end_at,
-            "meal" => $this->id
-        ];
+        return parent::toArray($request);
     }
 }

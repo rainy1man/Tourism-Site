@@ -14,6 +14,7 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $settings = [
+            ['key' => 'logo', 'value' => ''],
             ['key' => 'contact_address', 'value' => 'Your default address'],
             ['key' => 'contact_phone', 'value' => 'Your default phone number'],
             ['key' => 'contact_email', 'value' => 'contact@example.com'],
@@ -30,6 +31,6 @@ class SettingSeeder extends Seeder
         foreach ($settings as $setting) {
             Setting::updateOrCreate(['key' => $setting['key']], ['value' => $setting['value']]);
         }
-    
+
     }
 }

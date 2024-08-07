@@ -16,7 +16,7 @@ class TripDetailResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "tour_detail" => TourResource::make($this->tour),
+            "tour_detail" => new TourResource($this->tour),
             "price" => $this->price,
             "discount_price" => $this->discount_price,
             "capacity" => $this->capacity,
