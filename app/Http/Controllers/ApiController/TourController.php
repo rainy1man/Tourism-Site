@@ -20,17 +20,9 @@ class TourController extends Controller
     public function store(Request $request)
     {
         $tour = Tour::create($request->toArray());
-        if ($request->hasFile('main_image')) {
-            $tour->addMedia($request->main_image)->toMediaCollection('main_image');
-        }
-        $additional_images = $request->additional_images;
-        if ($additional_images) {
-            foreach ($additional_images as $image) {
-                $tour->addMedia($image)->toMediaCollection('additional_images');
-            }
-        }
         $tour->categories()->attach($request->category_ids);
-
+        app(MediaController::class)->upload($request, 'main_image', $tour->id);
+        app(MediaController::class)->upload($request, 'additional_images', $tour->id);
         return TourResource::make($tour);
     }
 

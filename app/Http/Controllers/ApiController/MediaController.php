@@ -31,14 +31,18 @@ class MediaController extends Controller
                     $model = Tour::find($model_id);
                     if ($request->hasFile('additional_images'))
                     {
-                        $model->addMedia($request->file('additional_images'))->toMediaCollection('additional_images', 'local');
+                        foreach ($request->additional_images as $image) {
+                                    $model->addMedia($image)->toMediaCollection('additional_images');
+                                }
                     }
                     break;
                 case 'tour_journey':
                     $model = Tour::find($model_id);
                     if ($request->hasFile('tour_journey'))
                     {
-                        $model->addMedia($request->file('tour_journey'))->toMediaCollection('tour_journey', 'local');
+                        foreach ($request->tour_journey as $image) {
+                            $model->addMedia($image)->toMediaCollection('tour_journey');
+                        }
                     }
                     break;
                 case 'logo':
