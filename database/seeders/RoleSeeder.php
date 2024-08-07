@@ -75,6 +75,8 @@ class RoleSeeder extends Seeder
             'create.discount',
             'update.discount',
             'delete.discount',
+            'create.media',
+            'delete.media',
         ]);
 
         // Create a super_admin user

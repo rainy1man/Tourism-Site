@@ -78,5 +78,9 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'create.refund']);
         Permission::create(['name' => 'update.refund']);
         Permission::create(['name' => 'delete.refund']);
+
+        // Refund Media
+        Permission::create(['name' => 'create.media']);
+        Permission::create(['name' => 'delete.media']);
     }
 }
