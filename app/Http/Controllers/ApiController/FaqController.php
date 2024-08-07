@@ -41,13 +41,13 @@ class FaqController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Faq $id)
+    public function update(Request $request, $id)
     {
         $faq = Faq::find($id);
         if(!$faq) {
-            return response()->json(['message' => 'Faq not found'], 404);
+            return $this->responseService->notFound_response();
         }
-        $faq->update();
+        $faq->update($request->all());
         return $this->responseService->success_response($faq);
 
     }
@@ -55,14 +55,14 @@ class FaqController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Faq $id)
+    public function destroy( $id)
     {
         $faq = Faq::find($id);
         if(!$faq) {
-            return response()->json(['message' => 'Faq not found'], 404);
+            return $this->responseService->notFound_response();
         }
         $faq->delete();
-        return $this->responseService->success_response($faq);
+        return $this->responseService->success_response();
 
     }
 }
