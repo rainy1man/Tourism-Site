@@ -27,8 +27,8 @@ class UserDetailResource extends JsonResource
             "card_number" => $this->card_number,
             "iban" => $this->iban,
             "email" => $this->email,
-            "passengers" => PassengerResource::collection($this->passengers),
-            "favorites" => CategorySummaryResource::collection($this->favorites),
+            "passengers" => $this->passengers()->get(),
+            "favorites" => $this->favorites(),
             "orders" => CategorySummaryResource::collection($this->orders),
             // "avatar" => new MediaResource($this->getMedia('avatar'))
         ];
