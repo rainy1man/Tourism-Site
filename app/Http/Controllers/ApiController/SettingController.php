@@ -38,6 +38,7 @@ class SettingController extends Controller
         $setting = Setting::find($id);
         $setting->update(['value'=>$value]);
         if ($request->hasFile('logo')) {
+            $setting->clearMediaCollection('logo');
             $setting->addMedia($request->file('logo'))->toMediaCollection('logo');
         }
          return $this->responseService->success_response($setting);
@@ -45,3 +46,5 @@ class SettingController extends Controller
     }
 
 }
+
+
