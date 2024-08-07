@@ -13,22 +13,22 @@ class FavoriteController extends Controller
 
     public function index()
     {
-        $favorite = Favorite::with(['user', 'tour'])->get();
+        $user = Auth::user();
 
-        return $this->responseService->success_response($favorite);
+
+        if (!$user) {
+            return $this->responseService->unauthorized_response();
+
+        }
+
+
+        $favorite = Favorite::with(['tour'])
+            ->where('user_id', $user->id)
+            ->paginate(6);
+            return $this->responseService->success_response($favorite);
+
     }
 
-    public function show($id)
-    {
-
-        $favorite = Favorite::with(['user', 'tour'])->find($id);
-        if (!$favorite) {
-        return $this->responseService->notFound_response();
-    }
-
-        return $this->responseService->success_response($favorite);
-
-    }
 
     public function updateOrCreate(Request $request)
     {
