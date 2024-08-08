@@ -17,11 +17,7 @@ class TripFactory extends Factory
     public function definition(): array
     {
         return [
-            'price' => round(fake()->numberBetween(500000, 32000000), -4),
-            'capacity' => round(fake()->numberBetween(50, 100), -1),
-            'start_at' => fake()->dateTimeBetween('2024-08-12', '2024-08-20'),
-            'end_at' => fake()->dateTimeBetween('2024-08-21', '2024-08-26'),
-            'meal' => fake()->randomElement(['BB', 'HB', 'FB', 'AI'])
+            //
         ];
     }
 }
