@@ -59,6 +59,27 @@ class MediaController extends Controller
                         $model->addMedia($request->file('avatar'))->toMediaCollection('avatar', 'local');
                     }
                     break;
+                case 'header_banner':
+                    $model = User::find($model_id);
+                    if ($request->hasFile('header_banner'))
+                    {
+                        $model->addMedia($request->file('header_banner'))->toMediaCollection('header_banner', 'local');
+                    }
+                    break;
+                case 'middle_banner':
+                    $model = User::find($model_id);
+                    if ($request->hasFile('middle_banner'))
+                    {
+                        $model->addMedia($request->file('middle_banner'))->toMediaCollection('middle_banner', 'local');
+                    }
+                    break;
+                case 'bottom_banner':
+                    $model = User::find($model_id);
+                    if ($request->hasFile('bottom_banner'))
+                    {
+                        $model->addMedia($request->file('bottom_banner'))->toMediaCollection('bottom_banner', 'local');
+                    }
+                    break;
             }
         }
         else
