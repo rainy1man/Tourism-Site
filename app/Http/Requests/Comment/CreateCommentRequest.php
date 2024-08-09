@@ -22,8 +22,8 @@ class CreateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'text' => ['required', 'string', 'max:255'],
-            'comment_id' => ['nullable', 'exists:comments,id']
+            'text' => 'nullable|string',
+            'score' => 'required|in:1,2,3,4,5',
         ];
     }
     public function attributes(): array

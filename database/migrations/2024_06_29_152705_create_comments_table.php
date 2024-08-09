@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
+            $table->string('text')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('tour_id')->constrained();
             $table->enum('score',['1','2','3','4','5']);
-            $table->boolean('visibility');
+            $table->enum('visibility',['pending','approved','rejected'])->default('pending');
             $table->timestamps();
         });
     }

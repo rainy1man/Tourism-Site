@@ -4,63 +4,93 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Tour;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function all(Request $request)
+    {   if($request->user()->can('see.comment'))
+        {
+            $comments = Comment::orderBy('id','desc')->paginate(10);
+            return $this->responseService->success_response($comments);
+        }
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
+    }
+
     public function index()
     {
-        $comment = Comment::all();
-        return response()->json($comment);
+        $comments = Comment::where(['visibility','approved'])
+        ->orderBy('id','desc')
+        ->paginate(10);
+        return $this->responseService->success_response($comments);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Tour $tour)
     {
-        $comment = Comment::create($request->toArray());
-        return response()->json($comment);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $comment = Comment::find($id);
-        if(!$comment) {
-            return response()->json(['message' => 'comment not found'], 404);
+        if($request->user()->whereHas('orders.trip.tour',function($querry)use($tour){
+            $querry->where('id', $tour->id);
+        }))
+        {
+            $comments = Comment::create([
+                'text' => $request->input('text'),
+                'user_id' => Auth::id(),
+                'tour_id' => $tour->id,
+                'score' => $request->input('score'),
+                'visibility' => 'pending',
+            ]);
+            return $this->responseService->success_response($comments);
         }
-        return response()->json($comment);
+        else
+        {
+            return $this->responseService->error_response('شما مجاز به کامنت گذاشتن برای این تور نمی باشید');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function changestatus(Request $request, $id)
     {
-        $comment = Comment::find($id);
-        if(!$comment) {
-            return response()->json(['message' => 'comment not found'], 404);
+        if($request->user()->can('update.comment'))
+        {
+            $comment = Comment::find($id);
+            $comment->update(['visibility' => $request->visibility]);
+            return $this->responseService->success_response($comment);
         }
-        $comment->update();
-        return response()->json($comment);
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, $id)
     {
-        $comment = Comment::find($id);
-        if(!$comment) {
-            return response()->json(['message' => 'comment not found'], 404);
+        if($request->user()->can('delete.comment'))
+        {
+            $comment = Comment::find($id);
+            $comment->delete();
+            return $this->responseService->success_response();
         }
-        $comment->delete();
-        return response()->json(['message' => 'comment deleted successfully']);
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
     }
+
+
 }

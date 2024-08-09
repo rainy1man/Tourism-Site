@@ -19,8 +19,12 @@ class Comment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'text', 'user_id', 'toure_id', 'comment_id', 'visibility'
-    ];
+    'text',
+    'user_id',
+    'tour_id',
+    'score',
+    'visibility'
+];
 
     public function user(): BelongsTo
     {
