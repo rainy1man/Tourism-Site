@@ -67,7 +67,7 @@ class TourSeeder extends Seeder
         Trip::create([
             "tour_id" => $tour2->id,
             "price" => "8100000",
-            "discount_price" => "",
+            "discount_price" => null,
             "capacity" => "72",
             "start_at" => "2024-08-21",
             "end_at" => "2024-08-26",
@@ -104,6 +104,26 @@ class TourSeeder extends Seeder
         ]);
         $tour3->categories()->attach(['5']);
 
+        Trip::create([
+            "tour_id" => $tour3->id,
+            "price" => "12600000",
+            "discount_price" => "12150000",
+            "capacity" => "43",
+            "start_at" => "2024-08-29",
+            "end_at" => "2024-08-01",
+            "meal" => "AI"
+        ]);
+
+        Trip::create([
+            "tour_id" => $tour3->id,
+            "price" => "12600000",
+            "discount_price" => null,
+            "capacity" => "43",
+            "start_at" => "2024-09-11",
+            "end_at" => "2024-09-14",
+            "meal" => "AI"
+        ]);
+
         $tour4 = Tour::create([
             "title" => "آبگرم سرعین",
             "description" => "تور یک هفته‌ای آبگرم سرعین اتوبوس vip",
@@ -118,6 +138,16 @@ class TourSeeder extends Seeder
             ]
         ]);
         $tour4->categories()->attach(['6']);
+
+        Trip::create([
+            "tour_id" => $tour4->id,
+            "price" => "9500000",
+            "discount_price" => null,
+            "capacity" => "43",
+            "start_at" => "2024-08-24",
+            "end_at" => "2024-08-31",
+            "meal" => "FB"
+        ]);
 
         $tour5 = Tour::create([
             "title" => "کیش",
@@ -134,9 +164,19 @@ class TourSeeder extends Seeder
         ]);
         $tour5->categories()->attach(['1', '4', '12']);
 
+        Trip::create([
+            "tour_id" => $tour5->id,
+            "price" => "14000000",
+            "discount_price" => null,
+            "capacity" => "83",
+            "start_at" => "2024-09-03",
+            "end_at" => "2024-09-10",
+            "meal" => "AI"
+        ]);
+
         $tour6 = Tour::create([
             "title" => "یزد",
-            "description" => "تور یک هفته‌ای کیش + تفریحات دریایی",
+            "description" => "تور یک هفته‌ای یزد + آفرود کویر",
             "transport" => "bus",
             "stay_class" => "cabin",
             "city_id" => "10",
@@ -148,6 +188,16 @@ class TourSeeder extends Seeder
             ]
         ]);
         $tour6->categories()->attach(['1', '4', '12']);
+
+        Trip::create([
+            "tour_id" => $tour6->id,
+            "price" => "8700000",
+            "discount_price" => "8550000",
+            "capacity" => "24",
+            "start_at" => "2024-09-20",
+            "end_at" => "2024-09-30",
+            "meal" => "FB"
+        ]);
 
         $tour7 = Tour::create([
             "title" => "بندرعباس",
@@ -163,5 +213,25 @@ class TourSeeder extends Seeder
             ]
         ]);
         $tour7->categories()->attach(['2', '6', '7', '9']);
+
+        Trip::create([
+            "tour_id" => $tour7->id,
+            "price" => "9700000",
+            "discount_price" => null,
+            "capacity" => "48",
+            "start_at" => "2024-09-10",
+            "end_at" => "2024-09-17",
+            "meal" => "FB"
+        ]);
+
+        Trip::create([
+            "tour_id" => $tour7->id,
+            "price" => "9700000",
+            "discount_price" => null,
+            "capacity" => "48",
+            "start_at" => "2024-10-08",
+            "end_at" => "2024-10-15",
+            "meal" => "FB"
+        ]);
     }
 }
