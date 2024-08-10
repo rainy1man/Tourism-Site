@@ -24,7 +24,7 @@ class MediaController extends Controller
                     $model = Tour::find($model_id);
                     if ($request->hasFile('main_image'))
                     {
-                        $model->addMedia($request->file('main_image'))->toMediaCollection('main_image', 'local');
+                        $model->addMedia($request->file('main_image'))->toMediaCollection('main_image', 'public');
                     }
                     break;
                 case 'additional_images':
@@ -32,7 +32,7 @@ class MediaController extends Controller
                     if ($request->hasFile('additional_images'))
                     {
                         foreach ($request->additional_images as $image) {
-                                    $model->addMedia($image)->toMediaCollection('additional_images');
+                                    $model->addMedia($image)->toMediaCollection('additional_images', 'public');
                                 }
                     }
                     break;
@@ -41,7 +41,7 @@ class MediaController extends Controller
                     if ($request->hasFile('tour_journey'))
                     {
                         foreach ($request->tour_journey as $image) {
-                            $model->addMedia($image)->toMediaCollection('tour_journey');
+                            $model->addMedia($image)->toMediaCollection('tour_journey', 'public');
                         }
                     }
                     break;
@@ -49,35 +49,35 @@ class MediaController extends Controller
                     $model = Setting::find($model_id);
                     if ($request->hasFile('logo'))
                     {
-                        $model->addMedia($request->file('logo'))->toMediaCollection('logo', 'local');
+                        $model->addMedia($request->file('logo'))->toMediaCollection('logo', 'public');
                     }
                     break;
                 case 'avatar':
                     $model = User::find($model_id);
                     if ($request->hasFile('avatar'))
                     {
-                        $model->addMedia($request->file('avatar'))->toMediaCollection('avatar', 'local');
+                        $model->addMedia($request->file('avatar'))->toMediaCollection('avatar', 'private');
                     }
                     break;
                 case 'header_banner':
                     $model = User::find($model_id);
                     if ($request->hasFile('header_banner'))
                     {
-                        $model->addMedia($request->file('header_banner'))->toMediaCollection('header_banner', 'local');
+                        $model->addMedia($request->file('header_banner'))->toMediaCollection('header_banner', 'public');
                     }
                     break;
                 case 'middle_banner':
                     $model = User::find($model_id);
                     if ($request->hasFile('middle_banner'))
                     {
-                        $model->addMedia($request->file('middle_banner'))->toMediaCollection('middle_banner', 'local');
+                        $model->addMedia($request->file('middle_banner'))->toMediaCollection('middle_banner', 'public');
                     }
                     break;
                 case 'bottom_banner':
                     $model = User::find($model_id);
                     if ($request->hasFile('bottom_banner'))
                     {
-                        $model->addMedia($request->file('bottom_banner'))->toMediaCollection('bottom_banner', 'local');
+                        $model->addMedia($request->file('bottom_banner'))->toMediaCollection('bottom_banner', 'public');
                     }
                     break;
             }

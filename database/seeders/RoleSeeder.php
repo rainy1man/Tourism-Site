@@ -17,21 +17,40 @@ class RoleSeeder extends Seeder
         // Create user role and assign permissions to this
         $user = Role::create(['name' => 'user']);
         $user->givePermissionTo([
+            'see.user',
+            'see.passenger',
+            'create.passenger',
+            'update.passenger',
+            'delete.passenger',
+            'see.order',
+            'create.order',
+            'update.order',
+            'delete.order',
+            'see.comment',
+            'create.comment',
+            'update.comment',
+            'delete.comment',
+            'see.score',
+            'create.score',
+            'update.score',
+            'delete.score',
+            'see.favorite',
+            'create.favorite',
+            'update.favorite',
+            'delete.favorite',
+            'see.refund',
+            'create.refund',
+            'update.refund',
+            'delete.refund',
         ]);
 
         // Create admin role and assign permissions to this
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo([
-        ]);
-
-        // Create super_admin role and assign permissions to this
-        $super_admin = Role::create(['name' => 'super_admin']);
-        $super_admin->givePermissionTo([
             'see.user',
             'create.user',
             'update.user',
             'delete.user',
-            'see.trip',
             'create.trip',
             'update.trip',
             'delete.trip',
@@ -55,34 +74,75 @@ class RoleSeeder extends Seeder
             'create.favorite',
             'update.favorite',
             'delete.favorite',
-            'see.discount',
-            'create.discount',
-            'update.discount',
-            'delete.discount',
-            'see.tour',
             'create.tour',
             'update.tour',
             'delete.tour',
-            'see.detail',
-            'create.detail',
-            'update.detail',
-            'delete.detail',
             'see.refund',
             'create.refund',
             'update.refund',
             'delete.refund',
-            'see.discount',
-            'create.discount',
-            'update.discount',
-            'delete.discount',
+            'create.FAQ',
+            'update.FAQ',
+            'delete.FAQ',
             'create.media',
             'delete.media',
         ]);
 
+        // Create super_admin role and assign permissions to this
+        $super_admin = Role::create(['name' => 'super_admin']);
+        $super_admin->givePermissionTo([
+            'see.user',
+            'create.user',
+            'update.user',
+            'delete.user',
+            'create.trip',
+            'update.trip',
+            'delete.trip',
+            'see.passenger',
+            'create.passenger',
+            'update.passenger',
+            'delete.passenger',
+            'see.order',
+            'create.order',
+            'update.order',
+            'delete.order',
+            'see.comment',
+            'create.comment',
+            'update.comment',
+            'delete.comment',
+            'see.score',
+            'create.score',
+            'update.score',
+            'delete.score',
+            'see.favorite',
+            'create.favorite',
+            'update.favorite',
+            'delete.favorite',
+            'create.tour',
+            'update.tour',
+            'delete.tour',
+            'see.refund',
+            'create.refund',
+            'update.refund',
+            'delete.refund',
+            'create.setting',
+            'update.setting',
+            'delete.setting',
+            'create.FAQ',
+            'update.FAQ',
+            'delete.FAQ',
+            'create.media',
+            'delete.media',
+            'see.role',
+            'create.role',
+            'update.role',
+            'delete.role',
+        ]);
+
         // Create a super_admin user
         $super_admin1 = User::create([
-            'first_name' => 'mohammad',
-            'last_name' => 'mokhtari',
+            'first_name' => 'محمد',
+            'last_name' => 'مختاری',
             'phone_number' => '9390071638',
             'email' => 'mohammad@gmail.com',
             'password' => 'Momo1275'
@@ -93,8 +153,8 @@ class RoleSeeder extends Seeder
 
         // Create a super_admin user
         $super_admin2 = User::create([
-            'first_name' => 'mohammad amin',
-            'last_name' => 'ghahremani',
+            'first_name' => 'محمد امین',
+            'last_name' => 'قهرمانی',
             'phone_number' => '9940362007',
             'email' => 'mohammadamin@gmail.com',
             'password' => 'Amin1234'
@@ -105,8 +165,8 @@ class RoleSeeder extends Seeder
 
         // Create a super_admin user
         $super_admin3 = User::create([
-            'first_name' => 'reyhaneh',
-            'last_name' => 'kian',
+            'first_name' => 'ریحانه',
+            'last_name' => 'کیان',
             'phone_number' => '9190365836',
             'email' => 'reyhaneh@gmail.com',
             'password' => 'Reyhaneh1234'
@@ -117,8 +177,8 @@ class RoleSeeder extends Seeder
 
         // Create a super_admin user
         $super_admin4 = User::create([
-            'first_name' => 'mahtab',
-            'last_name' => 'khajir',
+            'first_name' => 'مهتاب',
+            'last_name' => 'خجیر',
             'phone_number' => '9225407221',
             'email' => 'mahtab@gmail.com',
             'password' => 'Mahtab1234'

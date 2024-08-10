@@ -20,13 +20,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete.user']);
 
         // Tour Permissions
-        Permission::create(['name' => 'see.tour']);
         Permission::create(['name' => 'create.tour']);
         Permission::create(['name' => 'update.tour']);
         Permission::create(['name' => 'delete.tour']);
 
         // Trip Permissions
-        Permission::create(['name' => 'see.trip']);
         Permission::create(['name' => 'create.trip']);
         Permission::create(['name' => 'update.trip']);
         Permission::create(['name' => 'delete.trip']);
@@ -61,25 +59,29 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update.favorite']);
         Permission::create(['name' => 'delete.favorite']);
 
-        // Discount Permissions
-        Permission::create(['name' => 'see.discount']);
-        Permission::create(['name' => 'create.discount']);
-        Permission::create(['name' => 'update.discount']);
-        Permission::create(['name' => 'delete.discount']);
-
-        // Detail Permissions
-        Permission::create(['name' => 'see.detail']);
-        Permission::create(['name' => 'create.detail']);
-        Permission::create(['name' => 'update.detail']);
-        Permission::create(['name' => 'delete.detail']);
-
         // Refund Permissions
         Permission::create(['name' => 'see.refund']);
         Permission::create(['name' => 'create.refund']);
         Permission::create(['name' => 'update.refund']);
         Permission::create(['name' => 'delete.refund']);
 
-        // Refund Media
+        // Role Permissions
+        Permission::create(['name' => 'see.role']);
+        Permission::create(['name' => 'create.role']);
+        Permission::create(['name' => 'update.role']);
+        Permission::create(['name' => 'delete.role']);
+
+        // Setting Permissions
+        Permission::create(['name' => 'create.setting']);
+        Permission::create(['name' => 'update.setting']);
+        Permission::create(['name' => 'delete.setting']);
+
+        // FAQ Permissions
+        Permission::create(['name' => 'create.FAQ']);
+        Permission::create(['name' => 'update.FAQ']);
+        Permission::create(['name' => 'delete.FAQ']);
+
+        // Media Permissions
         Permission::create(['name' => 'create.media']);
         Permission::create(['name' => 'delete.media']);
     }

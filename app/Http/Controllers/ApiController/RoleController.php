@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -53,38 +54,21 @@ class RoleController extends Controller
         return $this->success_response($role);
     }
 
-    // Retrieve a list of a user permissions
-    public function show_user_roles(Request $request, string $id)
+    // Update the role associated with a user
+    public function update_user_role(Request $request, string $id)
     {
-        $user = User::find($id);
-        $roles = $user->getRoleNames();
-        return $this->success_response($roles);
-    }
-
-    // Update the roles associated with a user
-    public function update_user_roles(Request $request, string $id)
-    {
-        $user = User::find($id);
-        $user->roles()->sync($request->roles);
-        $roles = $user->getRoleNames();
-        return $this->success_response($roles);
-    }
-
-    // Retrieve a list of a user permissions
-    public function show_user_permissions(Request $request, string $id)
-    {
-        $user = User::find($id);
-        $permissions = $user->getPermissionNames();
-        return $this->success_response($permissions);
-    }
-
-    // Update the permissions directly associated with a user
-    public function update_user_permissions(Request $request, string $id)
-    {
-        $user = User::find($id);
-        $user->permissions()->sync($request->permissions);
-        $permissions = $user->getPermissionNames();
-        return $this->success_response($permissions);
+        if (Auth::user()->can('update.role')) {
+            $user = User::find($id);
+            if ($user) {
+                $user->roles()->sync($request->role_id);
+                $role = $user->getRoleNames();
+                return $this->responseService->success_response($role);
+            } else {
+                return $this->responseService->notFound_response('کاربر');
+            }
+        } else {
+            return $this->responseService->unauthorized_response();
+        }
     }
 
 }
