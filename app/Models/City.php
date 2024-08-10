@@ -21,13 +21,8 @@ class City extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'city_name', 'province_id'
+        'city_name',
     ];
-
-    public function province(): BelongsTo
-    {
-        return $this->belongsTo(Province::class);
-    }
 
     public function tours(): HasMany
     {

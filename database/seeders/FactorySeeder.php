@@ -16,19 +16,18 @@ class FactorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 50 user
-        for ($x = 1; $x <= 50; $x++) {
+        // Create 20 user and 2 passenger for each one
+        for ($x = 1; $x <= 20; $x++) {
             $user = User::factory()->create();
             $user->assignRole('user');
-            Passenger::factory(5)->for($user)->create();
+            Passenger::factory(2)->for($user)->create();
         }
 
         // Create 50 Tour with random City
-        for ($x = 1; $x <= 50; $x++) {
-            $city = City::find(1);
-            Tour::factory()->for($city)->create();
-        }
-
+        // for ($x = 1; $x <= 50; $x++) {
+        //     $city = City::find(1);
+        //     Tour::factory()->for($city)->create();
+        // }
 
     }
 }

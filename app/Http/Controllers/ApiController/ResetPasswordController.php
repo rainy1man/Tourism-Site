@@ -4,10 +4,13 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\ResetPasswordSMS;
+use App\Models\Code;
 use App\Models\ResetPassword;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
 {
@@ -20,12 +23,12 @@ class ResetPasswordController extends Controller
             return $this->responseService->notFound_response('کاربر');
         }
 
-        ResetPassword::where('user_id', $user->id)->delete();
+        Code::where('user_id', $user->id)->delete();
 
         $code = rand(1000, 9999);
         $expires_at = Carbon::now()->addMinutes(2);
 
-        ResetPassword::create([
+        Code::create([
             'user_id' => $user->id,
             'code' => $code,
             'expires_at' => $expires_at,
@@ -43,16 +46,16 @@ class ResetPasswordController extends Controller
 
         $user_id = session('user_id');
         if (!$user_id) {
-            return response()->json(['error' => 'دوباره تلاش کنید'], 400);
+            return $this->responseService->error_response('دوباره تلاش کنید');
         }
 
-        $ResetPassword = ResetPassword::where('user_id', $user_id)
+        $code = Code::where('user_id', $user_id)
             ->where('code', $request->code)
             ->where('expires_at', '>', Carbon::now())
             ->first();
 
-        if (!$ResetPassword) {
-            return response()->json(['error' => 'کد نادرست یا منقضی شده'], 400);
+        if (!$code) {
+            return $this->responseService->error_response('کد نادرست یا منقضی شده');
         }
 
         session(['verified_code' => $request->code]);
@@ -70,7 +73,7 @@ class ResetPasswordController extends Controller
             return response()->json(['error' => 'دوباره تلاش کنید'], 400);
         }
 
-        $ResetPassword = ResetPassword::where('user_id', $user_id)
+        $code = Code::where('user_id', $user_id)
             ->where('code', $verified_code)
             ->first();
 
@@ -78,7 +81,7 @@ class ResetPasswordController extends Controller
         $user->password = $request->password;
         $user->save();
 
-        $ResetPassword->delete();
+        $code->delete();
         $request->session()->forget(['user_id', 'verified_code']);
 
         return response()->json(['message' => 'رمز عبور با موفقیت تغییر کرد']);

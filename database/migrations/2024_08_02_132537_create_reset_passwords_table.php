@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reset_passwords', function (Blueprint $table) {
+        Schema::create('codes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
             $table->string('code', 4);
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reset_passwords');
+        Schema::dropIfExists('codes');
     }
 };

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TripDetailResource extends JsonResource
+class TripResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,7 @@ class TripDetailResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "tour_detail" => new TourResource($this->tour),
+            "tour_detail" => TourResource::make($this->tour),
             "price" => $this->price,
             "discount_price" => $this->discount_price,
             "capacity" => $this->capacity,
