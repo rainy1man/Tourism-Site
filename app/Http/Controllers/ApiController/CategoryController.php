@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $category = Category::paginate(6);
+        $category = Category::all();
         return $this->responseService->success_response($category);
     }
 
