@@ -56,13 +56,13 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         $trip = Trip::find($id);
         if(!$trip) {
-            return response()->json(['message' => 'Trip not found'], 404);
+            return $this->responseService->notFound_response('تور');
         }
-        return response()->json($trip);
+        return TripResource::make($trip);
     }
 
     /**
