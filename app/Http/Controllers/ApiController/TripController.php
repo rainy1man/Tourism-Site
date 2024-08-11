@@ -19,16 +19,16 @@ class TripController extends Controller
             $trips = $trips->where('capacity', '>=', $request->capacity);
         }
         if($request->has('start_at')){
-            $trips = $trips->where('start_at', '>=', $request->start_at);
+            $trips = $trips->where('start_at', '<=', $request->start_at);
         }
         if($request->has('end_at')){
             $trips = $trips->where('end_at', '<=', $request->end_at);
         }
         if($request->has('price_min')){
-            $trips = $trips->where('price', '>=', $request->price);
+            $trips = $trips->where('price', '>=', $request->price_min);
         }
         if($request->has('price_max')){
-            $trips = $trips->where('price', '<=', $request->price);
+            $trips = $trips->where('price', '<=', $request->price_max);
         }
         if($request->has('city_id')){
             $trips = $trips->whereHas('tour', function($q) use ($request) {
