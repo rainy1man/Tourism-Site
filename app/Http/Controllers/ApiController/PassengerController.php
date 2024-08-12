@@ -12,8 +12,10 @@ class PassengerController extends Controller
 {
     public function store(Request $request)
     {
-        $passenger = Passenger::create($request->merge(['user_id' => Auth::id()])->toArray());
-        return $this->responseService->success_response(PassengerResource::make($passenger));
+        $data = $request->except('visibility');
+        $data['user_id'] = Auth::id();
+        $passenger = Passenger::create($data);
+        return PassengerResource::make($passenger);
     }
 
     public function update(Request $request, string $id)
@@ -25,8 +27,9 @@ class PassengerController extends Controller
         if ($passenger->user_id !== Auth::id()) {
             return $this->responseService->unauthorized_response();
         }
-        $passenger->update($request->except('user_id'));
-        return $this->responseService->success_response(PassengerResource::make($passenger));
+        $data = $request->except(['user_id', 'visibility']);
+        $passenger->update($data);
+        return PassengerResource::make($passenger);
     }
 
 
@@ -34,9 +37,11 @@ class PassengerController extends Controller
     {
         $passenger = Passenger::find($id);
         if (!$passenger) {
-            return response()->json(['message' => 'Passenger not found'], 404);
+            return $this->responseService->notFound_response('مسافر');
         }
-        $passenger->delete();
-        return response()->json(['message' => 'Passenger deleted successfully']);
+        $passenger->update([
+            "visibility" => false
+        ]);
+        return $this->responseService->delete_response('مسافر');
     }
 }

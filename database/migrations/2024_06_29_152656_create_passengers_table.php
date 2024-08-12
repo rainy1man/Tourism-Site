@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
             $table->foreignId('user_id')->constrained();
+            $table->boolean('visibility')->default(true);
             $table->timestamps();
         });
     }
