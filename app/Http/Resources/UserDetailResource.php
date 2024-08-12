@@ -28,7 +28,7 @@ class UserDetailResource extends JsonResource
             "iban" => $this->iban,
             "email" => $this->email,
             "passengers" => $this->passengers()->where('visibility', true)->get(),
-            "favorites" => $this->favorites(),
+            "favorites" => $this->favorites()->select(['id', 'user_id', 'tour_id'])->get(),
             "orders" => CategorySummaryResource::collection($this->orders),
             "avatar" => MediaResource::collection($this->getMedia('avatar')),
             "role" => $this->roles()->select(['id', 'name'])->get()->makeHidden('pivot')
