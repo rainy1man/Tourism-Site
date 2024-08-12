@@ -20,7 +20,7 @@ class TourFactory extends Factory
             'title' => fake()->city(),
             'description' => fake()->text(25),
             'transport' => fake()->randomElement(['airplane', 'train', 'bus']),
-            'stay_class' => fake()->randomElement(['economy', 'business', 'first_class']),
+            'stay_class' => fake()->randomElement(['hotel', 'hotel_apartment', 'suite', 'cottage', 'tent']),
             'details' => [
                 'services' => fake()->text(50),
                 'stay_details' => fake()->text(50),

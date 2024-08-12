@@ -12,4 +12,4 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 });
 
 Route::get('profile', [UserController::class, 'profile'])->name('profile');
-Route::post('update_profile', [UserController::class, 'update_profile'])->name('update.profile');
+Route::put('update_profile', [UserController::class, 'update_profile'])->name('update.profile');

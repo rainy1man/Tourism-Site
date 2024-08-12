@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TripDetailResource;
+use App\Http\Resources\TripResource;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 
@@ -18,17 +18,17 @@ class TripController extends Controller
         if($request->has('capacity')){
             $trips = $trips->where('capacity', '>=', $request->capacity);
         }
-        if($request->has('start_date')){
-            $trips = $trips->where('start_date', '>=', $request->start_date);
+        if($request->has('start_at')){
+            $trips = $trips->where('start_at', '<=', $request->start_at);
         }
-        if($request->has('end_date')){
-            $trips = $trips->where('end_date', '<=', $request->end_date);
+        if($request->has('end_at')){
+            $trips = $trips->where('end_at', '<=', $request->end_at);
         }
         if($request->has('price_min')){
-            $trips = $trips->where('price_min', '>=', $request->price_min);
+            $trips = $trips->where('price', '>=', $request->price_min);
         }
         if($request->has('price_max')){
-            $trips = $trips->where('price_max', '<=', $request->price_max);
+            $trips = $trips->where('price', '<=', $request->price_max);
         }
         if($request->has('city_id')){
             $trips = $trips->whereHas('tour', function($q) use ($request) {
@@ -41,7 +41,7 @@ class TripController extends Controller
             });
         }
         $trips = $trips->orderBy('id', 'desc')->paginate(10);
-        return TripDetailResource::collection($trips);
+        return TripResource::collection($trips);
     }
 
     /**
@@ -50,19 +50,19 @@ class TripController extends Controller
     public function store(Request $request)
     {
         $trip = Trip::create($request->toArray());
-        return new TripDetailResource($trip);
+        return new TripResource($trip);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         $trip = Trip::find($id);
         if(!$trip) {
-            return response()->json(['message' => 'Trip not found'], 404);
+            return $this->responseService->notFound_response('تور');
         }
-        return response()->json($trip);
+        return TripResource::make($trip);
     }
 
     /**

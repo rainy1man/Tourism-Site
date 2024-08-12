@@ -27,7 +27,7 @@ class UserDetailResource extends JsonResource
             "card_number" => $this->card_number,
             "iban" => $this->iban,
             "email" => $this->email,
-            "passengers" => $this->passengers()->get(),
+            "passengers" => $this->passengers()->where('visibility', true)->get(),
             "favorites" => $this->favorites(),
             "orders" => CategorySummaryResource::collection($this->orders),
             "avatar" => MediaResource::collection($this->getMedia('avatar')),

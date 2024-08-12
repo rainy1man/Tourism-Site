@@ -11,6 +11,14 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
+            "title" => 'محبوب',
+            "description" => ''
+        ]);
+        Category::create([
+            "title" => 'تخفیف ویژه',
+            "description" => ''
+        ]);
+        Category::create([
             "title" => 'جنگلی',
             "description" => ''
         ]);

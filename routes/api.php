@@ -32,8 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     require __DIR__ . '/api/RefundRoutes.php';
     require __DIR__ . '/api/RoleRoutes.php';
     require __DIR__ . '/api/BannerRoutes.php';
-
-
 });
 require __DIR__ . '/api/AuthRoutes.php';
 require __DIR__ . '/api/CategoryRoutes.php';

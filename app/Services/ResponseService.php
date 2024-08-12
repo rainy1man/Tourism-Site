@@ -37,7 +37,7 @@ class ResponseService
     {
         return response()->json([
             "success" => 'success',
-            "message" => $data . 'با موفقیت حذف شد',
+            "message" => $data . '' . 'با موفقیت حذف شد',
         ]);
     }
 
@@ -45,7 +45,7 @@ class ResponseService
     {
         return response()->json([
             "success" => 'error',
-            "message" => $data . 'یافت نشد',
+            "message" => $data. '' . 'یافت نشد',
         ]);
     }
 }
