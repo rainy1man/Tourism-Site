@@ -39,11 +39,10 @@ class TourController extends Controller
     {
         $tour = Tour::find($id);
         if (!$tour) {
-            return response()->json(['message' => 'Tour not found'], 404);
+            return $this->responseService->notFound_response('تور');
         }
-        $tour->Update();
+        $tour->update($request->toArray());
         return $this->responseService->success_response($tour);
-
     }
 
     public function destroy(string $id)
