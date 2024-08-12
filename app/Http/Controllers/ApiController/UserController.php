@@ -19,8 +19,14 @@ class UserController extends Controller
             if ($request->has('phone_number')) {
                 $users = $users->where('phone_number', 'like', '%' . $request->input('phone_number') . '%');
             }
+            if ($request->has('filter')) {
+                $users = $users->where('first_name', 'like', '%' . $request->input('filter') . '%')
+                ->orwhere('last_name', 'like', '%' . $request->input('filter') . '%')
+                ->orwhere('phone_number', 'like', '%' . $request->input('filter') . '%')
+                ->orWhere('national_code', 'like', '%' . $request->input('filter') . '%');
+            }
             $users = $users->orderBy('id', 'desc')->paginate(10);
-            return $this->responseService->success_response(UserDetailResource::collection($users));
+            return UserDetailResource::collection($users);
         } else {
             return $this->responseService->unauthorized_response();
         }
@@ -52,6 +58,7 @@ class UserController extends Controller
     {
         if ($request->user()->can('update.user')) {
             $user = User::where('id', $id)->update($request->merge(["password" => Hash::make($request->password)])->toArray());
+            $user = User::find($id);
             return UserDetailResource::make($user);
         } else {
             return $this->responseService->unauthorized_response();

@@ -19,16 +19,16 @@ class TripController extends Controller
             $trips = $trips->where('capacity', '>=', $request->capacity);
         }
         if($request->has('start_at')){
-            $trips = $trips->where('start_at', '>=', $request->start_at);
+            $trips = $trips->where('start_at', '<=', $request->start_at);
         }
         if($request->has('end_at')){
             $trips = $trips->where('end_at', '<=', $request->end_at);
         }
         if($request->has('price_min')){
-            $trips = $trips->where('price', '>=', $request->price);
+            $trips = $trips->where('price', '>=', $request->price_min);
         }
         if($request->has('price_max')){
-            $trips = $trips->where('price', '<=', $request->price);
+            $trips = $trips->where('price', '<=', $request->price_max);
         }
         if($request->has('city_id')){
             $trips = $trips->whereHas('tour', function($q) use ($request) {
@@ -56,13 +56,13 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         $trip = Trip::find($id);
         if(!$trip) {
-            return response()->json(['message' => 'Trip not found'], 404);
+            return $this->responseService->notFound_response('تور');
         }
-        return response()->json($trip);
+        return TripResource::make($trip);
     }
 
     /**
