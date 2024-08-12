@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Passenger\CreatePassengerRequest;
+use App\Http\Requests\Passenger\UpdatePassengerRequest;
 use App\Http\Resources\PassengerResource;
 use App\Models\Order;
 use App\Models\Passenger;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PassengerController extends Controller
 {
-    public function store_in_order(Request $request, Order $order, Trip $trip)
+    public function store_in_order(CreatePassengerRequest $request, Order $order, Trip $trip)
     {
         $passengers = $request->input('passengers');
         $passenger_ids = [];
@@ -33,6 +34,7 @@ class PassengerController extends Controller
                 ['birth_date', $data['birth_date']],
                 ['gender', $data['gender']],
                 ['user_id', Auth::id()],
+                ['visibility', true]
             ])->first();
 
             if (!$passenger)
@@ -44,6 +46,7 @@ class PassengerController extends Controller
                 $passenger->birth_date = $data['birth_date'];
                 $passenger->gender = $data['gender'];
                 $passenger->user_id = Auth::id();
+                $passenger->visibility = true;
                 $passenger->save();
             }
 
@@ -54,22 +57,24 @@ class PassengerController extends Controller
         return $this->responseService->success_response();
     }
 
-    public function store(Request $request)
+    public function store(CreatePassengerRequest $request)
     {
         $data = $request->except('visibility');
         $data['user_id'] = Auth::id();
         $passenger = Passenger::create($data);
         return PassengerResource::make($passenger);
     }
-    
-    public function update(Request $request, string $id)
+
+    public function update(UpdatePassengerRequest $request, string $id)
     {
         $passenger = Passenger::find($id);
-        if (!$passenger) {
-            return $this->responseService->notFound_response('مسافر');
-        }
-        if ($passenger->user_id !== Auth::id()) {
+        if ($passenger->user_id !== Auth::id())
+        {
             return $this->responseService->unauthorized_response();
+        }
+        if (!$passenger)
+        {
+            return $this->responseService->notFound_response('مسافر');
         }
         $data = $request->except(['user_id', 'visibility']);
         $passenger->update($data);
@@ -80,12 +85,20 @@ class PassengerController extends Controller
     public function destroy(string $id)
     {
         $passenger = Passenger::find($id);
-        if (!$passenger) {
-            return $this->responseService->notFound_response('مسافر');
+        if (Auth::id() == $passenger->user_id)
+        {
+            if (!$passenger)
+            {
+                return $this->responseService->notFound_response('مسافر');
+            }
+            $passenger->update([
+                "visibility" => false
+            ]);
+            return $this->responseService->delete_response('مسافر');
         }
-        $passenger->update([
-            "visibility" => false
-        ]);
-        return $this->responseService->delete_response('مسافر');
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
     }
 }

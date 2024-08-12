@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Requests\Passenger\CreatePassengerRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -31,7 +32,7 @@ class OrderController extends Controller
         }
     }
 
-    public function store(Request $request, Trip $trip)
+    public function store(CreateOrderRequest $request, Trip $trip)
     {
         if ($trip->capacity == 0)   // check trip capacity
         {

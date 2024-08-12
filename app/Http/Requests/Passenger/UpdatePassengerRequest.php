@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Passenger;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePassengerRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdatePassengerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,7 @@ class UpdatePassengerRequest extends FormRequest
         return [
             'first_name' => ['required','string', 'max:255'],
             'last_name' => ['required','string', 'max:255'],
-            'national_code' => ['required','unique','string', 'max:255'],
+            'national_code' => ['required','string', 'max:255', 'unique:passengers,national_code,' . Auth::id()],
             'birth_date' => ['required','date', 'before:today'],
             'gender' => ['required','in:male,female'],
             'user_id' => ['required', 'exists:users,id']

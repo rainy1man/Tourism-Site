@@ -11,7 +11,7 @@ class CreateOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,19 +24,17 @@ class CreateOrderRequest extends FormRequest
         return [
             'user_id' => ['required', 'exists:users,id'],
             'trip_id' => ['required', 'exists:trips,id'],
-            'people_number' => ['required', 'numeric'],
-            'status' => ['required', 'in:paid,Paying,Canceled'],
-            'amount' => ['required', 'integer', 'min:0'],
-
+            'adults_number' => ['required', 'numeric'],
+            'children_number' => ['nullable', 'numeric'],
         ];
     }
     public function attributes(): array
     {
         return [
-            'people_namber' => 'تعداد',
-            'status' => 'وضعیت پرداخت',
-            'amount' => 'قیمت'
-
+            'user_id' => 'شناسه کاربر',
+            'trip_id' => 'شناسه سفر',
+            'adult_number' => 'تعداد بزرگسال',
+            'children_number' => 'تعذاد کودک',
         ];
     }
 }
