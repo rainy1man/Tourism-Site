@@ -20,7 +20,14 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'trip_id', 'price', 'adults_number', 'children_number', 'order_status', 'payment_status', 'refund_status'
+        'user_id',
+        'trip_id',
+        'total_amount',
+        'adults_number',
+        'children_number',
+        'order_status',
+        'payment_status',
+        'refund_status'
     ];
 
     public function user(): BelongsTo
@@ -38,14 +45,14 @@ class Order extends Model
         return $this->belongsToMany(Passenger::class, 'order_passenger');
     }
 
-    public function transactions(): HasMany
+    public function transaction(): HasOne
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasOne(Transaction::class);
     }
 
-    public function refunds()
+    public function refund(): HasOne
     {
-        return $this->hasMany(Refund::class);
+        return $this->hasOne(Refund::class);
     }
 
 }
