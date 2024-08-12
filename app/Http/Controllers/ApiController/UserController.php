@@ -58,6 +58,7 @@ class UserController extends Controller
     {
         if ($request->user()->can('update.user')) {
             $user = User::where('id', $id)->update($request->merge(["password" => Hash::make($request->password)])->toArray());
+            $user = User::find($id);
             return UserDetailResource::make($user);
         } else {
             return $this->responseService->unauthorized_response();
