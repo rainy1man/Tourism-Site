@@ -20,13 +20,14 @@ class SettingController extends Controller
     }
     public function show(Request $request, $id)
     {
-        $setting = Setting::find($id);
-        $media = $setting->media;
-        if($media)
-        {
-            $setting->with('media');
+        if ($request->hasRole('super_admin')) {
+            $setting = Setting::find($id);
+            $media = $setting->media;
+            if ($media) {
+                $setting->with('media');
+            }
+            return $this->responseService->success_response($setting);
         }
-        return $this->responseService->success_response($setting);
     }
 
     /**
@@ -34,14 +35,17 @@ class SettingController extends Controller
      */
     public function update(UpdateSettingRequest $request, $id = null)
     {
-        $value = $request->value;
-        $setting = Setting::find($id);
-        $setting->update(['value'=>$value]);
-        if ($request->hasFile('logo')) {
-            $setting->clearMediaCollection('logo');
-            $setting->addMedia($request->file('logo'))->toMediaCollection('logo');
+        if ($request->hasRole('super_admin')) {
+            $value = $request->value;
+            $setting = Setting::find($id);
+            $setting->update(['value' => $value]);
+            if ($request->hasFile('logo')) {
+                $setting->clearMediaCollection('logo');
+                $setting->addMedia($request->file('logo'))->toMediaCollection('logo');
+            }
+            return $this->responseService->success_response($setting);
         }
-         return $this->responseService->success_response($setting);
+
 
     }
 
