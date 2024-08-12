@@ -22,7 +22,7 @@ class BannerController extends Controller
      */
     public function store(Request $request, $id)
     {
-        if ($request->hasRole('super_admin') || $request->hasRole('admin'))
+        if ($request->hasRole('super_admin'))
         {
 
         $banner = Banner::findOrFail($id);
@@ -66,7 +66,7 @@ class BannerController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if ($request->hasRole('super_admin') || $request->hasRole('admin'))
+        if ($request->hasRole('super_admin'))
         {
             $banner = Banner::findOrFail($id);
             $banner->media()->delete();
