@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tour_id')->constrained();
+            $table->integer('capacity');
             $table->integer('price');
             $table->integer('discount_price')->nullable();
-            $table->integer('capacity');
+            $table->string('meal');
             $table->date('start_at');
             $table->date('end_at');
-            $table->enum('meal', ['BB', 'HB', 'FB', 'AI']);
             $table->timestamps();
         });
     }
