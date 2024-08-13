@@ -12,8 +12,8 @@ class TourController extends Controller
     //
     public function index()
     {
-        $tours = Tour::orderBy('id', 'desc')->get();
-        return $this->responseService->success_response(TourResource::collection($tours));
+        $tours = Tour::orderBy('id', 'desc')->paginate(6);
+        return TourResource::collection($tours);
     }
 
     public function store(Request $request)
@@ -41,7 +41,8 @@ class TourController extends Controller
         if (!$tour) {
             return $this->responseService->notFound_response('تور');
         }
-        $tour->update($request->toArray());
+        $data = $request->except(['transport', 'stay_class', 'city_id']);
+        $tour->update($data);
         return $this->responseService->success_response($tour);
     }
 
