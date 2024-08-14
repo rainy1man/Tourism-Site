@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trips', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tour_id')->constrained();
-            $table->integer('capacity');
-            $table->integer('price');
-            $table->integer('discount_price')->nullable();
-            $table->string('meal');
-            $table->date('start_at');
-            $table->date('end_at');
+            $table->string('filter')->nullable();
+            $table->enum('banner_type',['header','middle','bottom']);
+            $table->integer('position');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trips');
+        Schema::dropIfExists('banners');
     }
 };

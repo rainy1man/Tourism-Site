@@ -12,8 +12,8 @@ class TourController extends Controller
     //
     public function index()
     {
-        $tours = Tour::orderBy('id', 'desc')->get();
-        return $this->responseService->success_response(TourResource::collection($tours));
+        $tours = Tour::orderBy('id', 'desc')->paginate(6);
+        return TourResource::collection($tours);
     }
 
     public function store(Request $request)
@@ -39,11 +39,11 @@ class TourController extends Controller
     {
         $tour = Tour::find($id);
         if (!$tour) {
-            return response()->json(['message' => 'Tour not found'], 404);
+            return $this->responseService->notFound_response('تور');
         }
-        $tour->Update();
+        $data = $request->except(['transport', 'stay_class', 'city_id']);
+        $tour->update($data);
         return $this->responseService->success_response($tour);
-
     }
 
     public function destroy(string $id)

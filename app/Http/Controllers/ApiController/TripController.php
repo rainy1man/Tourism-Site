@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $trips = new Trip();
@@ -44,18 +41,12 @@ class TripController extends Controller
         return TripResource::collection($trips);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $trip = Trip::create($request->toArray());
         return new TripResource($trip);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, string $id)
     {
         $trip = Trip::find($id);
@@ -65,23 +56,16 @@ class TripController extends Controller
         return TripResource::make($trip);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $trip = Trip::find($id);
         if(!$trip) {
-            return response()->json(['message' => 'Trip not found'], 404);
+            return $this->responseService->notFound_response();
         }
-        $trip->update();
-        return response()->json($trip);
-
+        $trip->discount_price = $request->discount_price;
+        return $this->responseService->success_response($trip);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $trip = Trip::find($id);
