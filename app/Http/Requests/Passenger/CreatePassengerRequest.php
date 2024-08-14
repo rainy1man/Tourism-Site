@@ -24,10 +24,9 @@ class CreatePassengerRequest extends FormRequest
         return [
             'first_name' => ['required','string', 'max:255'],
             'last_name' => ['required','string', 'max:255'],
-            'national_code' => ['required','unique','string', 'max:255'],
+            'national_code' => ['required','string', 'max:255', 'unique:passengers'],
             'birth_date' => ['required','date', 'before:today'],
             'gender' => ['required','in:male,female'],
-            'user_id' => ['required', 'exists:users,id']
         ];
     }
     public function attributes(): array

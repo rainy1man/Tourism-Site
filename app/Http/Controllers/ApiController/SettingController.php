@@ -4,49 +4,45 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Setting\UpdateSettingRequest;
+use App\Http\Resources\SettingResource;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $settings = Setting::all();
-        return $this->responseService->success_response($settings);
-
-    }
-    public function show(Request $request, $id)
-    {
-        if ($request->hasRole('super_admin')) {
-            $setting = Setting::find($id);
-            $media = $setting->media;
-            if ($media) {
-                $setting->with('media');
-            }
-            return $this->responseService->success_response($setting);
+        if ($request->user()->hasRole('super_admin'))
+        {
+            $settings = Setting::all();
+            return SettingResource::collection($settings);
         }
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
+
+    }
+    public function show(Request $request, string $id)
+    {
+        $setting = Setting::find($id);
+        return SettingResource::make($setting);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSettingRequest $request, $id = null)
+    public function update(UpdateSettingRequest $request, string $id)
     {
-        if ($request->hasRole('super_admin')) {
+        if ($request->user()->hasRole('super_admin'))
+        {
             $value = $request->value;
             $setting = Setting::find($id);
             $setting->update(['value' => $value]);
-            if ($request->hasFile('logo')) {
-                $setting->clearMediaCollection('logo');
-                $setting->addMedia($request->file('logo'))->toMediaCollection('logo');
-            }
             return $this->responseService->success_response($setting);
         }
-
-
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
     }
 
 }

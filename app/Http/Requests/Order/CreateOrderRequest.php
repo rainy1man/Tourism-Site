@@ -22,8 +22,6 @@ class CreateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,id'],
-            'trip_id' => ['required', 'exists:trips,id'],
             'adults_number' => ['required', 'numeric'],
             'children_number' => ['nullable', 'numeric'],
         ];
@@ -31,8 +29,6 @@ class CreateOrderRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'user_id' => 'شناسه کاربر',
-            'trip_id' => 'شناسه سفر',
             'adult_number' => 'تعداد بزرگسال',
             'children_number' => 'تعذاد کودک',
         ];

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function all(Request $request)
     {   if($request->user()->can('see.comment'))
         {
@@ -28,29 +25,35 @@ class CommentController extends Controller
 
     public function index()
     {
-        $comments = Comment::where(['visibility','approved'])
-        ->orderBy('id','desc')
-        ->paginate(10);
-        return $this->responseService->success_response($comments);
+        $comments = Comment::where('visibility', 'approved');
+        if ($comments->exists())
+        {
+            $comments = $comments->orderBy('id', 'desc')
+                ->paginate(10);
+            return $this->responseService->success_response($comments);
+        }
+        else
+        {
+            return $this->responseService->notFound_response();
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, Tour $tour)
     {
         if($request->user()->whereHas('orders.trip.tour',function($querry)use($tour){
             $querry->where('id', $tour->id);
-        }))
+        }) && $request->user()->whereHas('orders', function($querry){
+            $querry->where('order_status', 'completed');
+            }))
         {
-            $comments = Comment::create([
+            $comment = Comment::create([
                 'text' => $request->input('text'),
                 'user_id' => Auth::id(),
                 'tour_id' => $tour->id,
                 'score' => $request->input('score'),
                 'visibility' => 'pending',
             ]);
-            return $this->responseService->success_response($comments);
+            return $this->responseService->success_response($comment);
         }
         else
         {
@@ -58,10 +61,7 @@ class CommentController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function changestatus(Request $request, $id)
+    public function change_status(Request $request, $id)
     {
         if($request->user()->can('update.comment'))
         {
@@ -75,9 +75,6 @@ class CommentController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, $id)
     {
         if($request->user()->can('delete.comment'))
@@ -92,5 +89,10 @@ class CommentController extends Controller
         }
     }
 
+    public function score(Request $request)
+    {
+        $average_score = Comment::where('visibility','approved')->avg('score');
+        return $this->responseService->success_response($average_score);
+    }
 
 }

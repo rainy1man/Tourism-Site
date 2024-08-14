@@ -35,10 +35,4 @@ class Comment extends Model
     {
         return $this->belongsTo(Tour::class);
     }
-
-    public function comments(): HasMany
-    {
-        return $this->HasMany(Comment::class)->with('comments');
-    }
-
 }

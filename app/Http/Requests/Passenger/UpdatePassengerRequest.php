@@ -27,8 +27,7 @@ class UpdatePassengerRequest extends FormRequest
             'last_name' => ['required','string', 'max:255'],
             'national_code' => ['required','string', 'max:255', 'unique:passengers,national_code,' . Auth::id()],
             'birth_date' => ['required','date', 'before:today'],
-            'gender' => ['required','in:male,female'],
-            'user_id' => ['required', 'exists:users,id']
+            'gender' => ['required','in:male,female']
         ];
     }
     public function attributes(): array
