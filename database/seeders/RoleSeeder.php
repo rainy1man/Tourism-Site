@@ -28,12 +28,6 @@ class RoleSeeder extends Seeder
             'delete.order',
             'see.comment',
             'create.comment',
-            'update.comment',
-            'delete.comment',
-            'see.score',
-            'create.score',
-            'update.score',
-            'delete.score',
             'see.favorite',
             'create.favorite',
             'update.favorite',
@@ -66,10 +60,6 @@ class RoleSeeder extends Seeder
             'create.comment',
             'update.comment',
             'delete.comment',
-            'see.score',
-            'create.score',
-            'update.score',
-            'delete.score',
             'see.favorite',
             'create.favorite',
             'update.favorite',
@@ -81,9 +71,6 @@ class RoleSeeder extends Seeder
             'create.refund',
             'update.refund',
             'delete.refund',
-            'create.FAQ',
-            'update.FAQ',
-            'delete.FAQ',
             'create.media',
             'delete.media',
         ]);
@@ -110,10 +97,6 @@ class RoleSeeder extends Seeder
             'create.comment',
             'update.comment',
             'delete.comment',
-            'see.score',
-            'create.score',
-            'update.score',
-            'delete.score',
             'see.favorite',
             'create.favorite',
             'update.favorite',
@@ -144,6 +127,11 @@ class RoleSeeder extends Seeder
             'first_name' => 'محمد',
             'last_name' => 'مختاری',
             'phone_number' => '9390071638',
+            'phone_number_emergency' => '9200000000',
+            'national_code' => '001234561',
+            'birth_date' => '1996-10-15',
+            'gender' => 'male',
+            'marital' => 'single',
             'email' => 'mohammad@gmail.com',
             'password' => 'Momo1275'
         ]);
@@ -156,6 +144,11 @@ class RoleSeeder extends Seeder
             'first_name' => 'محمد امین',
             'last_name' => 'قهرمانی',
             'phone_number' => '9940362007',
+            'phone_number_emergency' => '9200000000',
+            'national_code' => '001234560',
+            'birth_date' => '1995-01-01',
+            'gender' => 'male',
+            'marital' => 'single',
             'email' => 'mohammadamin@gmail.com',
             'password' => 'Amin1234'
         ]);
@@ -168,6 +161,11 @@ class RoleSeeder extends Seeder
             'first_name' => 'ریحانه',
             'last_name' => 'کیان',
             'phone_number' => '9190365836',
+            'phone_number_emergency' => '9200000000',
+            'national_code' => '001234569',
+            'birth_date' => '2000-10-15',
+            'gender' => 'female',
+            'marital' => 'single',
             'email' => 'reyhaneh@gmail.com',
             'password' => 'Reyhaneh1234'
         ]);
@@ -180,12 +178,34 @@ class RoleSeeder extends Seeder
             'first_name' => 'مهتاب',
             'last_name' => 'خجیر',
             'phone_number' => '9225407221',
+            'phone_number_emergency' => '9200000000',
+            'national_code' => '001234568',
+            'birth_date' => '1997-09-15',
+            'gender' => 'female',
+            'marital' => 'single',
             'email' => 'mahtab@gmail.com',
             'password' => 'Mahtab1234'
         ]);
 
         // Assign super_admin role to the new user
         $super_admin4->assignRole('super_admin');
+
+        // Create a user with user role
+        $user = User::create([
+            'first_name' => 'کاربر',
+            'last_name' => 'تست',
+            'phone_number' => '9204343200',
+            'phone_number_emergency' => '9200000000',
+            'national_code' => '001234567',
+            'birth_date' => '1996-10-15',
+            'gender' => 'male',
+            'marital' => 'single',
+            'email' => 'example@gmail.com',
+            'password' => 'Momo1234'
+        ]);
+
+        // Assign user role to the new user
+        $user->assignRole('user');
 
     }
 }

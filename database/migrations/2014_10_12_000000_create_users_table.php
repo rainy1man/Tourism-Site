@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('national_code')->unique()->nullable();
             $table->date('birth_date')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
-            $table->enum('marital', ['married', 'Single'])->nullable();
+            $table->enum('marital', ['married', 'single'])->nullable();
             $table->string('card_number')->unique()->nullable();
             $table->string('iban')->unique()->nullable();
             $table->softDeletes();

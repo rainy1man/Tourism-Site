@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserDetailResource;
+use App\Models\Banner;
 use App\Models\Setting;
 use App\Models\Tour;
 use App\Models\User;
@@ -32,7 +34,7 @@ class MediaController extends Controller
                     if ($request->hasFile('additional_images'))
                     {
                         foreach ($request->additional_images as $image) {
-                                    $model->addMedia($image)->toMediaCollection('additional_images', 'public');
+                                    $model->addMedia($request->file('additional_images'))->toMediaCollection('additional_images', 'public');
                                 }
                     }
                     break;
@@ -41,7 +43,7 @@ class MediaController extends Controller
                     if ($request->hasFile('tour_journey'))
                     {
                         foreach ($request->tour_journey as $image) {
-                            $model->addMedia($image)->toMediaCollection('tour_journey', 'public');
+                            $model->addMedia($request->file('tour_journey'))->toMediaCollection('tour_journey', 'public');
                         }
                     }
                     break;
@@ -57,27 +59,29 @@ class MediaController extends Controller
                     if ($request->hasFile('avatar'))
                     {
                         $model->addMedia($request->file('avatar'))->toMediaCollection('avatar', 'private');
+                        return UserDetailResource::make($model);
                     }
                     break;
                 case 'header_banner':
-                    $model = User::find($model_id);
+                    $model = Banner::find($model_id);
                     if ($request->hasFile('header_banner'))
                     {
                         $model->addMedia($request->file('header_banner'))->toMediaCollection('header_banner', 'public');
                     }
                     break;
                 case 'middle_banner':
-                    $model = User::find($model_id);
+                    $model = Banner::find($model_id);
                     if ($request->hasFile('middle_banner'))
                     {
                         $model->addMedia($request->file('middle_banner'))->toMediaCollection('middle_banner', 'public');
                     }
                     break;
                 case 'bottom_banner':
-                    $model = User::find($model_id);
+                    $model = Banner::find($model_id);
                     if ($request->hasFile('bottom_banner'))
                     {
                         $model->addMedia($request->file('bottom_banner'))->toMediaCollection('bottom_banner', 'public');
+                        return $this->responseService->success_response($model);
                     }
                     break;
             }

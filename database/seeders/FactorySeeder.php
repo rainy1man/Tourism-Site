@@ -22,12 +22,5 @@ class FactorySeeder extends Seeder
             $user->assignRole('user');
             Passenger::factory(2)->for($user)->create();
         }
-
-        // Create 50 Tour with random City
-        // for ($x = 1; $x <= 50; $x++) {
-        //     $city = City::find(1);
-        //     Tour::factory()->for($city)->create();
-        // }
-
     }
 }

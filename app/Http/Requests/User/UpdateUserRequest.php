@@ -32,8 +32,8 @@ class UpdateUserRequest extends FormRequest
             'birth_date' => ['required','date', 'before:today'],
             'gender' => ['required','in:male,female'],
             'marital' => ['required', 'in:married,Single'],
-            'card_number' => ['required', 'string', 'max:255'],
-            'iban' => ['required', 'string', 'max:255'],
+            'card_number' => ['string', 'max:255'],
+            'iban' => ['string', 'max:255'],
 
         ];
     }

@@ -12,7 +12,7 @@ class CityController extends Controller
     {
         $cities = new City();
         if ($request->available){
-            $cities = $cities->whereHas('tours');
+            $cities = $cities->whereHas('tours')->get();
             return $this->responseService->success_response($cities);
         }
         $cities = $cities->all();

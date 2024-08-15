@@ -57,7 +57,7 @@ class RoleController extends Controller
     // Update the role associated with a user
     public function update_user_role(Request $request, string $id)
     {
-        if (Auth::user()->can('update.role')) {
+        if ($request->user()->hasRole('super_admin')) {
             $user = User::find($id);
             if ($user) {
                 $user->roles()->sync($request->role_id);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UpdateProfileRequest;
 use App\Http\Resources\UserDetailResource;
 use App\Models\Passenger;
 use App\Models\User;
@@ -16,14 +17,11 @@ class UserController extends Controller
     {
         if ($request->user()->can('see.user')) {
             $users = new User();
-            if ($request->has('phone_number')) {
-                $users = $users->where('phone_number', 'like', '%' . $request->input('phone_number') . '%');
-            }
             if ($request->has('filter')) {
                 $users = $users->where('first_name', 'like', '%' . $request->input('filter') . '%')
-                ->orwhere('last_name', 'like', '%' . $request->input('filter') . '%')
-                ->orwhere('phone_number', 'like', '%' . $request->input('filter') . '%')
-                ->orWhere('national_code', 'like', '%' . $request->input('filter') . '%');
+                    ->orwhere('last_name', 'like', '%' . $request->input('filter') . '%')
+                    ->orwhere('phone_number', 'like', '%' . $request->input('filter') . '%')
+                    ->orWhere('national_code', 'like', '%' . $request->input('filter') . '%');
             }
             $users = $users->orderBy('id', 'desc')->paginate(10);
             return UserDetailResource::collection($users);
@@ -84,7 +82,17 @@ class UserController extends Controller
     public function update_profile(Request $request)
     {
         $user = Auth::user();
-        $user->update($request->except('password'));
+        $password = $user->password;
+        // $data = $request->validated();
+        if (!$password) {
+            $data = $request->except(['phone_number']);
+            $data['password'] = Hash::make($request->password);
+            $user->update($data);
+            Passenger::create($request->merge(["user_id" => $user->id])->toArray());
+        } else {
+            $data = $request->except(['password', 'phone_number']);
+            $user->update($data);
+        }
         return UserDetailResource::make($user);
     }
 }
