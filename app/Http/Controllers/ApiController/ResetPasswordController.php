@@ -64,13 +64,13 @@ class ResetPasswordController extends Controller
 
     public function reset_password(Request $request)
     {
-        $request->validate(['password' => ['required', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/']]);
+        $request->validate(['new_password' => ['required', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed']]);
 
         $user_id = session('user_id');
         $verified_code = session('verified_code');
 
         if (!$user_id || !$verified_code) {
-            return response()->json(['error' => 'دوباره تلاش کنید'], 400);
+            return response()->json(['error' => 'دوباره تلاش کنید']);
         }
 
         $code = Code::where('user_id', $user_id)
