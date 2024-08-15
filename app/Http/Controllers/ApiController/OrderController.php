@@ -40,14 +40,14 @@ class OrderController extends Controller
         }
 
         $user = Auth::user();
-//        $user_data = collect($user->getAttributes())->except(['iban', 'card_number']);  // check all user attributes except iban and card_number
-//        foreach ($user_data as $data)
-//        {
-//            if (is_null($data))
-//            {
-//                return response()->json(['error' => 'لطفا ابتدا پروفایل خود را تکمیل کنید'], 400);
-//            }
-//        }
+        $user_data = collect($user->getAttributes())->except(['iban', 'card_number']);  // check all user attributes except iban and card_number
+        foreach ($user_data as $data)
+        {
+            if (is_null($data))
+            {
+                return response()->json(['error' => 'لطفا ابتدا پروفایل خود را تکمیل کنید'], 400);
+            }
+        }
 
         // check if a trip has discount
         if ($trip->discount_price)
