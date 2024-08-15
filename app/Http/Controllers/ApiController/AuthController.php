@@ -80,8 +80,12 @@ class AuthController extends Controller
 
         $user = User::find($user_id);
         $token = $user->createToken($user->phone_number)->plainTextToken;
-        return response()->json(['token' => $token]);
-    }
+        return response()->json([
+            'token' => $token,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'role' => $user->roles()->select(['id', 'name'])->get()->makeHidden('pivot')
+        ]);    }
 
     public function login(Request $request)
     {
@@ -95,14 +99,19 @@ class AuthController extends Controller
             return $this->responseService->error_response('رمز عبور اشتباه است');
         }
         $token = $user->createToken($request->phone_number)->plainTextToken;
-        return response()->json(['token' => $token]);
+        return response()->json([
+            'token' => $token,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'role' => $user->roles()->select(['id', 'name'])->get()->makeHidden('pivot')
+        ]);
     }
 
     public function logout(Request $request)
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
-        return $this->responseService->success_response("از سامانه خارج شدید");
+        return response()->json(['message' => "از سامانه خارج شدید"]);
     }
 
     public function change_password(Request $request)
