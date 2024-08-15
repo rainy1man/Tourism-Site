@@ -73,6 +73,23 @@ class UserController extends Controller
         }
     }
 
+    public function ban_user(Request $request, string $id)
+    {
+        $user = User::find($id);
+        $role = $user->getRoleNames();
+
+        if ($request->user()->can('ban.user')) {
+            if ($role[0] !== 'ban') {
+                $user->syncRoles('ban');
+            } else {
+                $user->syncRoles('user');
+            }
+        } else {
+            return $this->responseService->unauthorized_response();
+        }
+        return UserDetailResource::make($user);
+    }
+
     public function profile(Request $request)
     {
         $user = User::find(Auth::id());

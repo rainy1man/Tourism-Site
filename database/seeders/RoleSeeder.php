@@ -38,6 +38,12 @@ class RoleSeeder extends Seeder
             'delete.refund',
         ]);
 
+        // Create user role and assign permissions to this
+        $user = Role::create(['name' => 'ban']);
+        $user->givePermissionTo([
+      //
+        ]);
+
         // Create admin role and assign permissions to this
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo([
@@ -45,6 +51,7 @@ class RoleSeeder extends Seeder
             'create.user',
             'update.user',
             'delete.user',
+            'ban.user',
             'create.trip',
             'update.trip',
             'delete.trip',
@@ -82,6 +89,7 @@ class RoleSeeder extends Seeder
             'create.user',
             'update.user',
             'delete.user',
+            'ban.user',
             'create.trip',
             'update.trip',
             'delete.trip',

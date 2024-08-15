@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'create.user']);
         Permission::create(['name' => 'update.user']);
         Permission::create(['name' => 'delete.user']);
+        Permission::create(['name' => 'ban.user']);
 
         // Tour Permissions
         Permission::create(['name' => 'create.tour']);
