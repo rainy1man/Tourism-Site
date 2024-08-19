@@ -85,5 +85,8 @@ class PermissionSeeder extends Seeder
         // Media Permissions
         Permission::create(['name' => 'create.media']);
         Permission::create(['name' => 'delete.media']);
+
+        // Banner Permissions
+        Permission::create(['name' => 'update.banner']);
     }
 }

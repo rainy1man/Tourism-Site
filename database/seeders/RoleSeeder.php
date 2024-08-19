@@ -128,6 +128,7 @@ class RoleSeeder extends Seeder
             'create.role',
             'update.role',
             'delete.role',
+            'update.banner'
         ]);
 
         // Create a super_admin user

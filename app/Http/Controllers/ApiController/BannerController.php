@@ -3,75 +3,39 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Banner\UpdateBannerRequest;
+use App\Http\Resources\BannerResource;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $banners = Banner::with(['media'])->paginate(4);
-
-        return $this->responseService->success_response($banners);
-    }
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, $id)
-    {
-        if ($request->hasRole('super_admin'))
+        $banners = new Banner();
+        if ($request->type)
         {
-
-        $banner = Banner::findOrFail($id);
-
-
-        if ($request->hasFile('header_banner')) {
-
-            $banner->clearMediaCollection('header_banner');
-
-            $banner->addMedia($request->file('header_banner'))->toMediaCollection('header_banner', 'local');
+            $banners = $banners->where('banner_type', $request->type)->orderBy('position','asc')->get();
         }
-
-        if ($request->hasFile('middle_banner')) {
-
-            $banner->clearMediaCollection('middle_banner');
-
-            $banner->addMedia($request->file('middle_banner'))->toMediaCollection('middle_banner', 'local');
-        }
-
-        if ($request->hasFile('bottom_banner')) {
-
-            $banner->clearMediaCollection('bottom_banner');
-
-            $banner->addMedia($request->file('bottom_banner'))->toMediaCollection('bottom_banner', 'local');
-        }
-
-        return $this->responseService->success_response();
-        }
-
-
-
+            return BannerResource::collection($banners);
     }
 
-    /**
-     * Display the specified resource.
-     */
-
-    /**
-     * Remove the specified resource from storage.
-     */
-
-    public function destroy(Request $request, $id)
+    public function update(UpdateBannerRequest $request)
     {
-        if ($request->hasRole('super_admin'))
+        if ($request->user()->can('update.banner'))
         {
-            $banner = Banner::findOrFail($id);
-            $banner->media()->delete();
-            return $this->responseService->success_response();
+            $banners = [];
+            foreach ($request->banners as $banner_data)
+            {
+                $banner = Banner::find($banner_data['id']);
+                $banner->update(['filter' => $banner_data['filter']]);
+                $banners[] = $banner;
+            }
+            return $this->responseService->success_response($banners);
         }
-
+        else
+        {
+            return $this->responseService->unauthorized_response();
+        }
     }
 }
