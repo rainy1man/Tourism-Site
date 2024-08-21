@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             TourSeeder::class,
             FactorySeeder::class,
-            bannerSeeder::class
+            BannerSeeder::class
         ]);
     }
 }
