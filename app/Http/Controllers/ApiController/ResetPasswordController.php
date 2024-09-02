@@ -82,7 +82,7 @@ class ResetPasswordController extends Controller
 
         $user_id = $request->user_id;
         $user = User::find($user_id);
-        $user->password = $request->password;
+        $user->password = $request->new_password;
         $user->save();
 
         return response()->json(['message' => 'رمز عبور با موفقیت تغییر کرد']);
