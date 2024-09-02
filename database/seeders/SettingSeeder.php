@@ -21,9 +21,11 @@ class SettingSeeder extends Seeder
             ['key' => 'logo', 'value' => ''],
         ];
 
-        foreach ($settings as $setting)
-        {
-            Setting::Create(['key' => $setting['key']], ['value' => $setting['value']]);
+        foreach ($settings as $setting) {
+            Setting::Create([
+                'key' => $setting['key'],
+                'value' => $setting['value']
+            ]);
         }
     }
 }
