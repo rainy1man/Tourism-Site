@@ -10,7 +10,7 @@ class Code extends Model
     use HasFactory;
 
     protected $fillable = [
-       'user_id', 'code', 'expires_at',
+       'user_id', 'code', 'expires_at', 'verification_token',
     ];
 
 }

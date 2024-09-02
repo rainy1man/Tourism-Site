@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Http\Resources\UserDetailResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
@@ -29,11 +30,13 @@ class AuthController extends Controller
             if (!$codes) {
                 Code::where('user_id', $user->id)->delete();
                 $code = rand(1000, 9999);
-                $expires_at = Carbon::now()->addMinutes(5);
+                $expires_at = Carbon::now()->addMinutes(4);
+                $verification_token = Str::random(40);
                 Code::create([
                     'user_id' => $user->id,
                     'code' => $code,
                     'expires_at' => $expires_at,
+                    'verification_token' => $verification_token,
                 ]);
             } else {
                 return $this->responseService->error_response('بعد از منقضی شدن کد تلاش کنید');
@@ -45,29 +48,31 @@ class AuthController extends Controller
             $user = User::create($request->toArray());
             $user->assignRole('user');
             $code = rand(1000, 9999);
-            $expires_at = Carbon::now()->addMinutes(2);
+            $expires_at = Carbon::now()->addMinutes(4);
+            $verification_token = Str::random(40);
             Code::create([
                 'user_id' => $user->id,
                 'code' => $code,
                 'expires_at' => $expires_at,
+                'verification_token' => $verification_token,
             ]);
         }
 
         RegisterSMS::dispatch($user, $code);
-        session(['user_id' => $user->id]);
-        return response()->json(['message' => 'کد ارسال شد']);
+        return response()->json([
+            'message' => 'کد ارسال شد',
+            'verification_token' => $verification_token
+        ]);
     }
 
     public function verify_register_code(Request $request)
     {
-        $request->validate(['code' => 'required|digits:4']);
+        $request->validate([
+            'code' => 'required|digits:4',
+            'verification_token' => 'required'
+        ]);
 
-        $user_id = session('user_id');
-        if (!$user_id) {
-            return $this->responseService->error_response('دوباره تلاش کنید');
-        }
-
-        $code = Code::where('user_id', $user_id)
+        $code = Code::where('verification_token', $request->verification_token)
             ->where('code', $request->code)
             ->where('expires_at', '>', Carbon::now())
             ->first();
@@ -76,16 +81,18 @@ class AuthController extends Controller
             return $this->responseService->error_response('کد نادرست یا منقضی شده');
         }
 
-        session(['verified_code' => $request->code]);
+        $user = User::find($code->user_id);
 
-        $user = User::find($user_id);
+        $code->delete();
+
         $token = $user->createToken($user->phone_number)->plainTextToken;
         return response()->json([
             'token' => $token,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'role' => $user->roles()->select(['id', 'name'])->get()->makeHidden('pivot')
-        ]);    }
+        ]);
+    }
 
     public function login(Request $request)
     {

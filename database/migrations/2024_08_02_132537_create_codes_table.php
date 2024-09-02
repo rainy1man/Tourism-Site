@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('code', 4);
             $table->timestamp('expires_at');
+            $table->string('verification_token', 40);
             $table->timestamps();
         });
     }
