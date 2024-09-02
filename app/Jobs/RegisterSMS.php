@@ -38,7 +38,7 @@ class RegisterSMS implements ShouldQueue
      */
     public function handle()
     {
-        $apiKey = "2pPQM-k2mocoDS92Wbpeep6O23VwXXZfUsHwQQJR_xg=";
+        $apiKey = "bpAbwYvx7HwribeByy4xK_UIa1YinpwP5MlMsD8pIUY=";
         $client = new Client($apiKey);
         $patternValues = [
             "verification-code" => $this->code,
@@ -47,7 +47,7 @@ class RegisterSMS implements ShouldQueue
         try
         {
             $message = $client->sendPattern(
-                "xr9wsnl5hhhfnap",          // pattern code
+                "4jn63c3h2t1e3rr",          // pattern code
                 "+983000505",               // originator
                 $this->user->phone_number,  // recipient
                 $patternValues              // pattern values
