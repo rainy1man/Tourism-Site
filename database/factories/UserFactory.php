@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'last_name' => fake()->lastName(),
             'phone_number' => fake()->unique()->numerify('91########'),
             'phone_number_emergency' => fake()->unique()->numerify('91########'),
-            'national_code' => '00' . fake()->nationalCode(),
+            'national_code' => fake()->nationalCode(),
             'birth_date' => fake()->date(),
             'gender' => fake()->randomElement(['male', 'female']),
             'marital' => fake()->randomElement(['married', 'Single']),
