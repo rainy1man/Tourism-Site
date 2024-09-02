@@ -22,7 +22,9 @@ class TripResource extends JsonResource
             "capacity" => $this->capacity,
             "start_at" => $this->start_at,
             "end_at" => $this->end_at,
-            "meal" => $this->id
+            "meal" => $this->id,
+            "recommended" => $this->recommended,
+            "popular" => $this->popular
         ];
     }
 }

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('meal');
             $table->date('start_at');
             $table->date('end_at');
+            $table->boolean('recommended')->default(false);
+            $table->boolean('popular')->default(false);
             $table->timestamps();
         });
     }
