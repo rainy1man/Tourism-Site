@@ -38,7 +38,7 @@ class ResetPasswordSMS implements ShouldQueue
      */
     public function handle()
     {
-        $apiKey = "2pPQM-k2mocoDS92Wbpeep6O23VwXXZfUsHwQQJR_xg=";
+        $apiKey = "bpAbwYvx7HwribeByy4xK_UIa1YinpwP5MlMsD8pIUY=";
         $client = new Client($apiKey);
         $patternValues = [
             "verification-code" => $this->code,
@@ -47,7 +47,7 @@ class ResetPasswordSMS implements ShouldQueue
         try
         {
             $message = $client->sendPattern(
-                "7wix4qahvb6u3fy",          // pattern code
+                "strjlwg20i2py4k",          // pattern code
                 "+983000505",               // originator
                 $this->user->phone_number,  // recipient
                 $patternValues              // pattern values
