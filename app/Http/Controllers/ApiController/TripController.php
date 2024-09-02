@@ -22,21 +22,23 @@ class TripController extends Controller
             $trips = $trips->where('end_at', '<=', $request->end_at);
         }
         if ($request->has('price_min')) {
-            $trips = $trips->where(function($query) use ($request) {
+            $trips = $trips->where(function ($query) use ($request) {
                 $query->where('discount_price', '>=', $request->price_min)
-                      ->orWhere(function($query) use ($request) {
-                          $query->whereNull('discount_price')
-                                ->where('price', '>=', $request->price_min);
-                      });
-            });        }
+                    ->orWhere(function ($query) use ($request) {
+                        $query->whereNull('discount_price')
+                            ->where('price', '>=', $request->price_min);
+                    });
+            });
+        }
         if ($request->has('price_max')) {
-            $trips = $trips->where(function($query) use ($request) {
+            $trips = $trips->where(function ($query) use ($request) {
                 $query->where('discount_price', '<=', $request->price_max)
-                      ->orWhere(function($query) use ($request) {
-                          $query->whereNull('discount_price')
-                                ->where('price', '<=', $request->price_max);
-                      });
-            });        }
+                    ->orWhere(function ($query) use ($request) {
+                        $query->whereNull('discount_price')
+                            ->where('price', '<=', $request->price_max);
+                    });
+            });
+        }
         if ($request->has('city_id')) {
             $trips = $trips->whereHas('tour', function ($query) use ($request) {
                 $query->where('city_id', $request->city_id);
@@ -49,10 +51,17 @@ class TripController extends Controller
         }
         if ($request->has('sort')) {
             switch ($request->sort) {
+                case 'safarjoo':
+                    $trips = $trips->orderByRaw(
+                    "is_recommended DESC,
+                    CASE WHEN discount_price IS NOT NULL THEN 1 ELSE 0 END DESC,
+                    created_at DESC"
+                    );
+                    break;
                 case 'best_selling':
                     $trips = $trips->with('tour')
-                    ->withCount(['tour.orders as orders_count'])
-                    ->orderBy('orders_count', 'desc');
+                        ->withCount(['tour.orders as orders_count'])
+                        ->orderBy('orders_count', 'desc');
                     break;
                 case 'expensive':
                     $trips = $trips->orderByRaw('COALESCE(discount_price, price) desc');
