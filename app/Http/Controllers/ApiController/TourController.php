@@ -12,7 +12,10 @@ class TourController extends Controller
     //
     public function index()
     {
-        $tours = Tour::orderBy('id', 'desc')->paginate(6);
+        $tours = Tour::withCount('comments')
+        ->withAvg('comments', 'score')
+        ->orderBy('id', 'desc')
+        ->paginate(6);
         return TourResource::collection($tours);
     }
 
