@@ -16,6 +16,8 @@ class BannerController extends Controller
         if ($request->type)
         {
             $banners = $banners->where('banner_type', $request->type)->orderBy('position','asc')->get();
+        } else {
+            $banners = $banners->orderBy('id','asc')->get();
         }
             return BannerResource::collection($banners);
     }
