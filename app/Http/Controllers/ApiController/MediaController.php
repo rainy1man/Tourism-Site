@@ -34,7 +34,7 @@ class MediaController extends Controller
                     if ($request->hasFile('additional_images'))
                     {
                         foreach ($request->additional_images as $image) {
-                                    $model->addMedia($request->file('additional_images'))->toMediaCollection('additional_images', 'public');
+                                    $model->addMedia($image)->toMediaCollection('additional_images', 'public');
                                 }
                     }
                     break;
@@ -43,7 +43,7 @@ class MediaController extends Controller
                     if ($request->hasFile('tour_journey'))
                     {
                         foreach ($request->tour_journey as $image) {
-                            $model->addMedia($request->file('tour_journey'))->toMediaCollection('tour_journey', 'public');
+                            $model->addMedia($image)->toMediaCollection('tour_journey', 'public');
                         }
                     }
                     break;
