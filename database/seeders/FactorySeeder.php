@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\City;
+use App\Models\Comment;
 use App\Models\Passenger;
 use App\Models\Tour;
 use App\Models\User;
@@ -22,5 +23,8 @@ class FactorySeeder extends Seeder
             $user->assignRole('user');
             Passenger::factory(2)->for($user)->create();
         }
+
+        Comment::factory(100);
+
     }
 }
