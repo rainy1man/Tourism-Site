@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TourResource extends JsonResource
+class TourIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,7 @@ class TourResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $this->resource->loadCount('comments')->loadAvg('comments', 'score');
         return [
             "id" => $this->id,
             "title" => $this->title,
@@ -24,7 +25,6 @@ class TourResource extends JsonResource
             "details" => $this->details,
             "comments_count" => $this->comments_count,
             "average_score" => $this->comments_avg_score,
-            "comments" => CommentResource::collection($this->comments),
             "categories" => CategorySummaryResource::collection($this->categories),
             "city" => CityResource::make($this->city),
             "main_image" => MediaResource::collection($this->getMedia('main_image')),

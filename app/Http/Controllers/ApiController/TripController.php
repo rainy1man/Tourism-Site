@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TripIndexResource;
 use App\Http\Resources\TripResource;
+use App\Http\Resources\TripShowResource;
 use App\Models\Tour;
 use App\Models\Trip;
 use Illuminate\Http\Request;
@@ -106,13 +108,13 @@ class TripController extends Controller
         }
 
         $trips = $trips->paginate(10);
-        return TripResource::collection($trips);
+        return TripIndexResource::collection($trips);
     }
 
     public function store(Request $request)
     {
         $trip = Trip::create($request->toArray());
-        return new TripResource($trip);
+        return new TripShowResource($trip);
     }
 
     public function show(Request $request, string $id)
@@ -121,7 +123,7 @@ class TripController extends Controller
         if (!$trip) {
             return $this->responseService->notFound_response('تور');
         }
-        return TripResource::make($trip);
+        return TripShowResource::make($trip);
     }
 
     public function update(Request $request, string $id)

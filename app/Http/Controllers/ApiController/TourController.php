@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TourIndexResource;
 use App\Http\Resources\TourResource;
+use App\Http\Resources\TourShowResource;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,7 @@ class TourController extends Controller
         ->withAvg('comments', 'score')
         ->orderBy('id', 'desc')
         ->paginate(6);
-        return TourResource::collection($tours);
+        return TourIndexResource::collection($tours);
     }
 
     public function store(Request $request)
@@ -26,7 +28,7 @@ class TourController extends Controller
         app(MediaController::class)->upload($request, 'main_image', $tour->id);
         app(MediaController::class)->upload($request, 'additional_images', $tour->id);
         app(MediaController::class)->upload($request, 'tour_journey', $tour->id);
-        return $this->responseService->success_response(TourResource::make($tour));
+        return $this->responseService->success_response(TourShowResource::make($tour));
     }
 
     public function show(string $id)
@@ -35,7 +37,7 @@ class TourController extends Controller
         if (!$tour) {
             return $this->responseService->unauthorized_response();
         }
-        return $this->responseService->success_response(TourResource::make($tour));
+        return $this->responseService->success_response(TourShowResource::make($tour));
     }
 
     public function update(Request $request, string $id)
