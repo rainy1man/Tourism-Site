@@ -52,6 +52,11 @@ class Tour extends Model implements HasMedia
         return $this->hasMany(Comment::class);
     }
 
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
     protected $casts = [
         'details' => 'object'
     ];
