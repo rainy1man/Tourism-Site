@@ -24,7 +24,7 @@ class TourIndexResource extends JsonResource
             "stay_class" => $this->stay_class,
             "details" => $this->details,
             "comments_count" => $this->comments_count,
-            "average_score" => $this->comments_avg_score,
+            "average_score" => number_format($this->comments_avg_score, 2),
             "categories" => CategorySummaryResource::collection($this->categories),
             "city" => CityResource::make($this->city),
             "main_image" => MediaResource::collection($this->getMedia('main_image')),
