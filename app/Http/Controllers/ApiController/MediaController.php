@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserDetailResource;
 use App\Models\Banner;
+use App\Models\Post;
 use App\Models\Setting;
 use App\Models\Tour;
 use App\Models\User;
@@ -38,14 +39,17 @@ class MediaController extends Controller
                                 }
                     }
                     break;
-                case 'tour_journey':
-                    $model = Tour::find($model_id);
-                    if ($request->hasFile('tour_journey'))
-                    {
-                        foreach ($request->tour_journey as $image) {
-                            $model->addMedia($image)->toMediaCollection('tour_journey', 'public');
+                case 'tour_journeys':
+                    $tour = Tour::find($model_id);
+                        foreach ($request->tour_journeys as $tour_journey) {
+                            $post = Post::create([
+                                'tour_id' => $tour->id,
+                                'text' => $tour_journey['text'],
+                            ]);
+
+                                $post->addMedia($tour_journey['image'])->toMediaCollection('tour_journey', 'public');
                         }
-                    }
+
                     break;
                 case 'logo':
                     $model = Setting::find($model_id);
