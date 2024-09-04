@@ -24,7 +24,7 @@ class FactorySeeder extends Seeder
             Passenger::factory(2)->for($user)->create();
         }
 
-        Comment::factory(100);
+        Comment::factory(100)->create();
 
     }
 }
