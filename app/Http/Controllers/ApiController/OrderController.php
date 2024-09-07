@@ -40,7 +40,7 @@ class OrderController extends Controller
         }
 
         $user = Auth::user();
-        $user_data = collect($user->getAttributes())->except(['iban', 'card_number']);  // check all user attributes except iban and card_number
+        $user_data = collect($user->getAttributes())->except(['iban', 'card_number', 'deleted_at', 'email_verified_at', 'remember_token']);  // check all user attributes except iban and card_number
         foreach ($user_data as $data)
         {
             if (is_null($data))
