@@ -25,7 +25,7 @@ class TourShowResource extends JsonResource
             "details" => $this->details,
             "comments_count" => $this->comments_count,
             "average_score" => number_format($this->comments_avg_score, 2),
-            "comments" => CommentResource::collection($this->comments),
+            "comments" => CommentResource::collection($this->comments()->where('visibility', 'approved')->get()),
             "categories" => CategorySummaryResource::collection($this->categories),
             "city" => CityResource::make($this->city),
             "main_image" => MediaResource::collection($this->getMedia('main_image')),
