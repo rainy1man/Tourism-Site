@@ -8,6 +8,7 @@ use App\Http\Requests\Passenger\CreatePassengerRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Trip;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,16 +19,12 @@ class OrderController extends Controller
     public function show(Request $request, string $id)
     {
         $order = Order::find($id);
-        if ($request->user()->can('see.order') || $request->user()->id == $order->user_id)
-        {
-            if (!$order)
-            {
+        if ($request->user()->can('see.order') || $request->user()->id == $order->user_id) {
+            if (!$order) {
                 return $this->responseService->notFound_response();
             }
             return $this->responseService->success_response($order);
-        }
-        else
-        {
+        } else {
             return $this->responseService->unauthorized_response();
         }
     }
@@ -41,21 +38,16 @@ class OrderController extends Controller
 
         $user = Auth::user();
         $user_data = collect($user->getAttributes())->except(['iban', 'card_number', 'deleted_at', 'email_verified_at', 'remember_token']);  // check all user attributes except iban and card_number
-        foreach ($user_data as $data)
-        {
-            if (is_null($data))
-            {
+        foreach ($user_data as $data) {
+            if (is_null($data)) {
                 return response()->json(['error' => 'لطفا ابتدا پروفایل خود را تکمیل کنید'], 400);
             }
         }
 
         // check if a trip has discount
-        if ($trip->discount_price)
-        {
+        if ($trip->discount_price) {
             $price = $trip->discount_price;
-        }
-        else
-        {
+        } else {
             $price = $trip->price;
         }
         $total_amount = ($request->adults_number * $price) + ($request->children_number * ($price / 2));    // calculate total amount
@@ -79,8 +71,7 @@ class OrderController extends Controller
     public function change_status(Request $request, string $id)
     {
         $order = Order::find($id);
-        if ($request->user()->id == $order->user_id)
-        {
+        if ($request->user()->id == $order->user_id) {
             $order->order_status = 'completed';
             $order->payment_status = 'paid';
             $order->save();
@@ -90,10 +81,25 @@ class OrderController extends Controller
             $trip->decrement('capacity', $passengers);
 
             return OrderResource::make($order);
-        }
-        else
-        {
+        } else {
             return $this->responseService->unauthorized_response();
         }
+    }
+
+    public function monthly_sales($date, string $id = null)
+    {
+        $end_date = Carbon::parse($date);
+        $start_date = $end_date->copy()->subDays(30);
+
+        $total_sales = Order::whereBetween('created_at', [$start_date, $end_date])
+            ->where('payment_status', 'paid');
+        if ($id !== null) {
+            $total_sales->whereHas('trip', function ($query) use ($id) {
+                $query->where('tour_id', $id);
+            });
+        }
+        $total_sales = $total_sales->sum('total_amount');
+
+        return $this->responseService->success_response($total_sales);
     }
 }
