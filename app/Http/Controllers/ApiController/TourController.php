@@ -47,7 +47,7 @@ class TourController extends Controller
     {
         $tour = Tour::find($id);
         if (!$tour) {
-            return $this->responseService->unauthorized_response();
+            return $this->responseService->notFound_response('تور');
         }
         return TourShowResource::make($tour);
     }

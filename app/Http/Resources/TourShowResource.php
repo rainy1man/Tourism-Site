@@ -31,6 +31,7 @@ class TourShowResource extends JsonResource
             "main_image" => MediaResource::collection($this->getMedia('main_image')),
             "additional_images" => MediaResource::collection($this->getMedia('additional_images')),
             'tour_journeys' => PostResource::collection($this->posts),
+            'trips' => TripBasicResource::collection($this->trips),
         ];
     }
 }
