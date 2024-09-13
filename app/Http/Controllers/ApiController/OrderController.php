@@ -102,4 +102,61 @@ class OrderController extends Controller
 
         return $this->responseService->success_response($total_sales);
     }
+
+    public function average_sales($date)
+    {
+        $end_date = Carbon::parse($date);
+        $start_date = $end_date->copy()->subDays(30);
+
+        // دریافت تمامی تورهایی که در یک ماه گذشته سفارش داشته‌اند
+        $trips = Trip::whereHas('orders', function ($query) use ($start_date, $end_date) {
+            $query->whereBetween('created_at', [$start_date, $end_date])
+                  ->where('payment_status', 'paid');
+        })->get();
+
+        // محاسبه مجموع درصد فروش
+        $total_percentage = 0;
+        $trip_count = $trips->count();
+
+        foreach ($trips as $trip) {
+            // تعداد کل مسافران رزرو شده برای این تور
+            $sold_passengers = $trip->orders()
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->where('payment_status', 'paid')
+                ->sum(DB::raw('adults_number + children_number'));
+
+            // محاسبه درصد فروش این تور
+            if ($trip->capacity > 0) {
+                $percentage = ($sold_passengers / $trip->capacity) * 100;
+                $total_percentage += $percentage;
+            }
+        }
+
+        // محاسبه میانگین درصد فروش
+        if ($trip_count > 0) {
+            $average_percentage = $total_percentage / $trip_count;
+        } else {
+            $average_percentage = 0; // اگر هیچ توری در این بازه فروخته نشده باشد
+        }
+
+        // قالب‌بندی میانگین درصد فروش تا دو رقم اعشار
+        $formatted_percentage = number_format($average_percentage, 2);
+
+        return $this->responseService->success_response($formatted_percentage);
+    }
+
+    public function total_sales($date)
+{
+    $end_date = Carbon::parse($date);
+    $start_date = $end_date->copy()->subDays(30);
+
+    // محاسبه تعداد کل مسافران فروخته شده (بزرگسالان و کودکان) در یک ماه گذشته
+    $total_sold_capacity = Order::whereBetween('created_at', [$start_date, $end_date])
+        ->where('payment_status', 'paid')
+        ->sum(DB::raw('adults_number + children_number'));
+
+    return $this->responseService->success_response($total_sold_capacity);
+}
+
+
 }
