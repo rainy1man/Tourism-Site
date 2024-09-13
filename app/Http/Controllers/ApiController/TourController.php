@@ -24,6 +24,7 @@ class TourController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->tour_journeys);
         $tour = Tour::create($request->toArray());
         $tour->categories()->attach($request->category_ids);
         app(MediaController::class)->upload($request, 'main_image', $tour->id);
@@ -33,7 +34,8 @@ class TourController extends Controller
             foreach ($request->tour_journeys as $tour_journey) {
                 $post = Post::create([
                     'tour_id' => $tour->id,
-                    'text' => $tour_journey['text'],
+                    'title' => $tour_journey['title'],
+                    'description' => $tour_journey['description'],
                 ]);
 
                     $post->addMedia($tour_journey['image'])->toMediaCollection('tour_journey', 'public');

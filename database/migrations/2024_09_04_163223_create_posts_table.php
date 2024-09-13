@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tour_id')->constrained();
-            $table->json('text');
+            $table->text('title');
+            $table->text('description');
             $table->timestamps();
         });
     }

@@ -59,7 +59,6 @@ class Tour extends Model implements HasMedia
 
     protected $casts = [
         'details' => 'object',
-        'tour_journeys' => 'object',
     ];
 
 }

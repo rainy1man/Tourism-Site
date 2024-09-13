@@ -13,11 +13,12 @@ class Post extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'text', 'tour_id'
+        'title', 'description', 'tour_id'
     ];
 
     public function tour(): BelongsTo
     {
         return $this->belongsTo(Tour::class);
     }
+
 }

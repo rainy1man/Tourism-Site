@@ -17,7 +17,7 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'text' => fake()->sentence(),
+            'text' => fake()->randomElement(['خیلی خوب بود', 'خوب بود', 'بد نبود', 'افتضاح بود', 'خیلی افتضاح بود']),
             'user_id' => fake()->numberBetween(1,25),
             'tour_id' => fake()->numberBetween(1, 13),
             'score' => fake()->numberBetween(1, 5),

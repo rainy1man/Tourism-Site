@@ -44,7 +44,8 @@ class MediaController extends Controller
                         foreach ($request->tour_journeys as $tour_journey) {
                             $post = Post::create([
                                 'tour_id' => $tour->id,
-                                'text' => $tour_journey['text'],
+                                'title' => $tour_journey['title'],
+                                'description' => $tour_journey['description'],
                             ]);
 
                                 $post->addMedia($tour_journey['image'])->toMediaCollection('tour_journey', 'public');
