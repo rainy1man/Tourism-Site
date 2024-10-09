@@ -10,5 +10,5 @@ Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
     Route::get('monthly_sales/{date}/{id?}', [OrderController::class, 'monthly_sales'])->name('monthly_sales');
     Route::get('average_sales/{date}', [OrderController::class, 'average_sales'])->name('average_sales');
     Route::get('total_sales/{date}', [OrderController::class, 'total_sales'])->name('total_sales');
-    Route::post('calculate_total_amount/{trip}', [OrderController::class, 'calculate_total_amount'])->name('calculate_total_amount');
+    Route::post('calculate_total_amount/{trip}', [OrderController::class, 'calculate_total_amount'])->name('calculate_total_amount')->withoutMiddleware('auth:sanctum');
 });
