@@ -68,6 +68,17 @@ class OrderController extends Controller
         return OrderResource::make($order);
     }
 
+    public function calculate_total_amount(Request $request, Trip $trip)
+    {
+        if ($trip->discount_price) {
+            $price = $trip->discount_price;
+        } else {
+            $price = $trip->price;
+        }
+        $total_amount = ($request->adults_number * $price) + ($request->children_number * ($price / 2));
+        return response()->json(['total_amount' => $total_amount]);
+    }
+
     public function change_status(Request $request, string $id)
     {
         $order = Order::find($id);
