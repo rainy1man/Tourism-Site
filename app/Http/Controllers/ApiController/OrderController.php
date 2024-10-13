@@ -23,7 +23,7 @@ class OrderController extends Controller
             if (!$order) {
                 return $this->responseService->notFound_response();
             }
-            return $this->responseService->success_response($order);
+            return OrderResource::make($order); 
         } else {
             return $this->responseService->unauthorized_response();
         }

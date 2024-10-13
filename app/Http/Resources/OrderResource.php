@@ -21,7 +21,13 @@ class OrderResource extends JsonResource
             'adults_number' => $this->adults_number,
             'start_at' => $this->trip->start_at,
             'end_at' => $this->trip->end_at,
-            'total_amount' => $this->total_amount
+            'total_amount' => $this->total_amount,
+            'transport' => $this->trip->tour->transport,
+            'passengers' => $this->passengers->map(function ($passenger) {
+                return [
+                    'full_name' => $passenger->first_name . ' ' . $passenger->last_name,
+                ];
+            }),
         ];
     }
 }
